@@ -1,0 +1,9 @@
+name: JunaraPlugin
+version: 1.17.1
+author: gabjuho
+main: com.gabjuho.junaraplugin.Main
+api-version: 1.17
+commands:
+  stat:
+    description: 테스트용 스텟창 세팅
+    usage: /<command>

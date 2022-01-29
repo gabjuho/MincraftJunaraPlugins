@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JunaraPlugin:jar">
+    <output-path>$USER_HOME$/OneDrive/바탕 화면/Plugins/Server/plugins</output-path>
+    <root id="archive" name="JunaraPlugin.jar">
+      <element id="module-output" name="JunaraPlugin" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../Dependencies/spigot-api-1.17.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
