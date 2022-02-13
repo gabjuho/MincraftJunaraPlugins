@@ -7,3 +7,7 @@ commands:
   stat:
     description: 테스트용 스텟창 세팅
     usage: /<command>
+  FAQ:
+    description: 0,100,0으로 텔레포트
+    usage: /<command>
+    aliases: fuck

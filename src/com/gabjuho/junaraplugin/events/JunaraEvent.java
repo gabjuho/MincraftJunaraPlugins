@@ -1,5 +1,7 @@
 package com.gabjuho.junaraplugin.events;
 
+import com.gabjuho.junaraplugin.DataManager;
+import com.gabjuho.junaraplugin.Main;
 import com.gabjuho.junaraplugin.guis.Stat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,11 +18,17 @@ import java.util.Arrays;
 
 public class JunaraEvent implements Listener {
 
+    static DataManager data = DataManager.getInstance(); // 데이터매니저 싱글톤 객체로 불러옴
+
     @EventHandler
     public static void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        player.sendMessage(ChatColor.GREEN+"주나라에 오신 것을 환영합니다!");
+        if(!(data.getConfig().contains(player.getUniqueId().toString())))
+        {
+            data.getConfig().set("player." + player.getUniqueId() + ".statPoint",0);
+            data.saveConfig();
+        }
     }
     @EventHandler
     public static void onStatPointClick(InventoryClickEvent event)

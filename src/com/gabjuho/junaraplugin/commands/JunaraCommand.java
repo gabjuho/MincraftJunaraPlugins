@@ -31,7 +31,6 @@ public class JunaraCommand implements CommandExecutor {
             player.getInventory().setItem(9,item);
             sender.sendMessage("스텟창이 세팅되었습니다.");
         }
-
         return true;
     }
 }
