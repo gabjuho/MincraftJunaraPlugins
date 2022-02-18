@@ -7,7 +7,24 @@ commands:
   stat:
     description: 테스트용 스텟창 세팅
     usage: /<command>
-  FAQ:
-    description: 0,100,0으로 텔레포트
+  giveStat:
+    description: 스텟포인트를 주는 커맨드
     usage: /<command>
-    aliases: fuck
+  iniAttack:
+    description: 공격력 초기화
+    usage: /<command>
+  iniHealth:
+    description: 체력 초기화
+    usage: /<command>
+  iniDefense:
+    description: 방어력 초기화
+    usage: /<command>
+  iniAttackSpeed:
+    description: 공격속도 초기화
+    usage: /<command>
+  iniMovementSpeed:
+    description: 이동속도 초기화
+    usage: /<command>
+  tpWindow:
+    description: tp윈도우창 띄우기
+    usage: /<command>

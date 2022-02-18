@@ -13,6 +13,13 @@ public class Main extends JavaPlugin {
         JunaraCommand commands = new JunaraCommand();
         getServer().getPluginManager().registerEvents(new JunaraEvent(),this);
         getCommand("stat").setExecutor(commands);
+        getCommand("giveStat").setExecutor(commands);
+        getCommand("iniAttack").setExecutor(commands);
+        getCommand("iniHealth").setExecutor(commands);
+        getCommand("iniDefense").setExecutor(commands);
+        getCommand("iniAttackSpeed").setExecutor(commands);
+        getCommand("iniMovementSpeed").setExecutor(commands);
+        getCommand("tpWindow").setExecutor(commands);
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[JunaraPlugin]: Plugin is enabled!");
     }
     @Override
