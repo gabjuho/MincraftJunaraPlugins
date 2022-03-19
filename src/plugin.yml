@@ -10,7 +10,7 @@ commands:
   backpack:
     description: 테스트용 가방창 세팅
     usage: /<command>
-  giveSP:
+  setSP:
     description: 스텟포인트를 주는 커맨드
     usage: /<command>
   iniAttack:

@@ -38,7 +38,7 @@ public class StatCommand implements CommandExecutor {
             return true;
         }
 
-        if (cmd.getName().equalsIgnoreCase("giveSP")){
+        if (cmd.getName().equalsIgnoreCase("setSP")){
             if(args.length >= 1)
             {
                 try

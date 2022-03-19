@@ -69,7 +69,7 @@ public class Main extends JavaPlugin {
 
         //스텟 관련 커멘드
         getCommand("stat").setExecutor(statCommands);
-        getCommand("giveSP").setExecutor(statCommands);
+        getCommand("setSP").setExecutor(statCommands);
         getCommand("iniAttack").setExecutor(statCommands);
         getCommand("iniHealth").setExecutor(statCommands);
         getCommand("iniDefense").setExecutor(statCommands);
