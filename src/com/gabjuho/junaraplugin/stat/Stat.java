@@ -1,10 +1,12 @@
-package com.gabjuho.junaraplugin.guis;
+package com.gabjuho.junaraplugin.stat;
 
 import com.gabjuho.junaraplugin.DataManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -72,5 +74,14 @@ public class Stat {
         inv.setItem(23,stat5);
 
         player.openInventory(inv);
+    }
+
+    @EventHandler
+    public static void onCloseStatWindow(InventoryCloseEvent event)
+    {
+        if(event.getView().getTitle().equals("스텟"))
+        {
+            data.saveConfig();
+        }
     }
 }

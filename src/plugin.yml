@@ -7,7 +7,10 @@ commands:
   stat:
     description: 테스트용 스텟창 세팅
     usage: /<command>
-  giveStat:
+  backpack:
+    description: 테스트용 가방창 세팅
+    usage: /<command>
+  giveSP:
     description: 스텟포인트를 주는 커맨드
     usage: /<command>
   iniAttack:
