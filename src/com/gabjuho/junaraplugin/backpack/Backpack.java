@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class Backpack {
 
-    private final HashMap<UUID,Inventory> backpacks = new HashMap<>();
+    private static final HashMap<UUID,Inventory> backpacks = new HashMap<>();
 
     public void open(Player player)
     {
@@ -24,7 +24,7 @@ public class Backpack {
         section.set("amount",itemStack.getAmount());
     }
 
-    public HashMap<UUID,Inventory> getBackpacks()
+    public HashMap<UUID,Inventory> getBackpackHashMap()
     {
         return backpacks;
     }

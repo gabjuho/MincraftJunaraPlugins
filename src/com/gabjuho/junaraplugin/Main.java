@@ -24,12 +24,13 @@ public class Main extends JavaPlugin {
     {
         registerEvent();
         registerCommand();
+
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[JunaraPlugin]: Plugin is enabled!");
     }
     @Override
     public void onDisable()
     {
-        for(Map.Entry<UUID,Inventory> entry:backpack.getBackpacks().entrySet())
+        for(Map.Entry<UUID,Inventory> entry:backpack.getBackpackHashMap().entrySet())
         {
             if(!DataManager.getInstance().getConfig().contains("backpacks."+entry.getKey()))
             {

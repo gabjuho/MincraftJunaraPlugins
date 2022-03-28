@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
 
@@ -17,12 +18,11 @@ public class BackpackEvent implements Listener {
     static DataManager dataManager = DataManager.getInstance();
     static Backpack backpack = new Backpack();
 
-
     @EventHandler
-    public static void onPlayerJoin(PlayerJoinEvent event)
+    public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        Inventory inv = Bukkit.createInventory(player, InventoryType.CHEST,"가방");
+        Inventory inv = Bukkit.createInventory(null, InventoryType.CHEST,"가방"); // owner를 player에서 null로 변경
 
         if(dataManager.getConfig().contains("backpacks."+player.getUniqueId()))
         {
@@ -31,7 +31,7 @@ public class BackpackEvent implements Listener {
                 inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getConfig().getConfigurationSection("backpacks." + player.getUniqueId() + "." + item))));
             }
         }
-        backpack.getBackpacks().put(player.getUniqueId(),inv);
+        backpack.getBackpackHashMap().put(player.getUniqueId(),inv);
     }
 
     @EventHandler
@@ -44,6 +44,17 @@ public class BackpackEvent implements Listener {
         }
 
         char c = 'a';
+
+        dataManager.getConfig().set("backpacks."+player.getUniqueId(),null);
+
+        for(ItemStack itemStack: backpack.getBackpackHashMap().get(player.getUniqueId())) // 서버 리로드 시 해쉬맵이 초기화되서, get에서 null이 반환됨
+        {
+            if(itemStack != null)
+            {
+                backpack.saveItem(DataManager.getInstance().getConfig().createSection("backpacks."+player.getUniqueId() + "." + c++),itemStack);
+                //아이템을 넣는 건 저장이 되는데, 빼는 건 저장이 안됨. -> 해결됨
+            }
+        }
 
         dataManager.saveConfig();
     }

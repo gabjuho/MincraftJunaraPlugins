@@ -19,15 +19,24 @@ public class StatEvent implements Listener {
     {
         Player player = event.getPlayer();
 
-        if(!(dataManager.getConfig().contains("player." + player.getUniqueId().toString())))
+        if(!(dataManager.getConfig().contains("stat." + player.getUniqueId())))
         {
-            dataManager.getConfig().set("player." + player.getUniqueId() + ".스텟포인트",0);
-            dataManager.getConfig().set("player." + player.getUniqueId() + ".공격력포인트",0);
-            dataManager.getConfig().set("player." + player.getUniqueId() + ".체력포인트",0);
-            dataManager.getConfig().set("player." + player.getUniqueId() + ".방어력포인트",0);
-            dataManager.getConfig().set("player." + player.getUniqueId() + ".공격속도포인트",0);
-            dataManager.getConfig().set("player." + player.getUniqueId() + ".이동속도포인트",0);
+            dataManager.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트",0);
+            dataManager.getConfig().set("stat." + player.getUniqueId() + ".공격력포인트",0);
+            dataManager.getConfig().set("stat." + player.getUniqueId() + ".체력포인트",0);
+            dataManager.getConfig().set("stat." + player.getUniqueId() + ".방어력포인트",0);
+            dataManager.getConfig().set("stat." + player.getUniqueId() + ".공격속도포인트",0);
+            dataManager.getConfig().set("stat." + player.getUniqueId() + ".이동속도포인트",0);
             dataManager.saveConfig();
+        }
+        else
+        {
+            player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".공격력포인트") + 1);
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".체력포인트") + 20);
+            player.setHealth(dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".체력포인트") + 20);
+            player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".방어력포인트"));
+            player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".공격속도포인트")+4);
+            player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".이동속도포인트") * 0.1 + 0.1);
         }
     }
 
@@ -38,8 +47,8 @@ public class StatEvent implements Listener {
         {
             Player player = (Player)event.getWhoClicked();
 
-            int statPoint = dataManager.getConfig().getInt("player." + player.getUniqueId() + ".스텟포인트");
-            int point = 0;
+            int statPoint = dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".스텟포인트");
+            int point;
 
             if(event.getView().getTitle().equals("스텟") && event.getCurrentItem() != null)
             {
@@ -49,11 +58,11 @@ public class StatEvent implements Listener {
                 {
                     if(statPoint > 0)
                     {
-                        point = dataManager.getConfig().getInt("player." + player.getUniqueId() + ".공격력포인트");
+                        point = dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".공격력포인트");
                         point++;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".공격력포인트", point);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".공격력포인트", point);
                         statPoint--;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".스텟포인트", statPoint);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트", statPoint);
                         stat.open(player);
                         player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(point + 1);
                     }
@@ -66,11 +75,11 @@ public class StatEvent implements Listener {
                 {
                     if(statPoint > 0)
                     {
-                        point = dataManager.getConfig().getInt("player." + player.getUniqueId() + ".체력포인트");
+                        point = dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".체력포인트");
                         point++;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".체력포인트", point);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".체력포인트", point);
                         statPoint--;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".스텟포인트", statPoint);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트", statPoint);
                         stat.open(player);
                         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(point + 20);
                     }
@@ -83,11 +92,11 @@ public class StatEvent implements Listener {
                 {
                     if(statPoint > 0)
                     {
-                        point = dataManager.getConfig().getInt("player." + player.getUniqueId() + ".방어력포인트");
+                        point = dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".방어력포인트");
                         point++;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".방어력포인트", point);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".방어력포인트", point);
                         statPoint--;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".스텟포인트", statPoint);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트", statPoint);
                         stat.open(player);
                         player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(point);
                     }
@@ -100,11 +109,11 @@ public class StatEvent implements Listener {
                 {
                     if(statPoint > 0)
                     {
-                        point = dataManager.getConfig().getInt("player." + player.getUniqueId() + ".공격속도포인트");
+                        point = dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".공격속도포인트");
                         point++;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".공격속도포인트", point);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".공격속도포인트", point);
                         statPoint--;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".스텟포인트", statPoint);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트", statPoint);
                         stat.open(player);
                         player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4+point);
                     }
@@ -117,11 +126,11 @@ public class StatEvent implements Listener {
                 {
                     if(statPoint > 0)
                     {
-                        point = dataManager.getConfig().getInt("player." + player.getUniqueId() + ".이동속도포인트");
+                        point = dataManager.getConfig().getInt("stat." + player.getUniqueId() + ".이동속도포인트");
                         point++;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".이동속도포인트", point);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".이동속도포인트", point);
                         statPoint--;
-                        dataManager.getConfig().set("player." + player.getUniqueId() + ".스텟포인트", statPoint);
+                        dataManager.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트", statPoint);
                         stat.open(player);
                         player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(point * 0.1 + 0.1);
                     }

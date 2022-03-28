@@ -1,6 +1,5 @@
 package com.gabjuho.junaraplugin.events;
 
-import com.gabjuho.junaraplugin.DataManager;
 import com.gabjuho.junaraplugin.backpack.Backpack;
 import com.gabjuho.junaraplugin.stat.Stat;
 import org.bukkit.ChatColor;
