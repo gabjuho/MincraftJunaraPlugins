@@ -7,12 +7,15 @@ import com.gabjuho.junaraplugin.events.JunaraEvent;
 import com.gabjuho.junaraplugin.backpack.Backpack;
 import com.gabjuho.junaraplugin.stat.StatCommand;
 import com.gabjuho.junaraplugin.stat.StatEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Main extends JavaPlugin {
@@ -24,12 +27,28 @@ public class Main extends JavaPlugin {
     {
         registerEvent();
         registerCommand();
+        DataManager dataManager = DataManager.getInstance();
+
+        for (String uuid : dataManager.getConfig().getConfigurationSection("backpacks").getKeys(false)) {
+            if(dataManager.getConfig().contains("backpacks."+uuid))
+            {
+                Inventory inv = Bukkit.createInventory(null, InventoryType.CHEST,"가방");
+                for(String item: dataManager.getConfig().getConfigurationSection("backpacks." + uuid).getKeys(false))
+                {
+                    inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getConfig().getConfigurationSection("backpacks." + uuid + "." + item))));
+                }
+                backpack.getBackpackHashMap().put(UUID.fromString(uuid),inv);
+            }
+        }
+
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[JunaraPlugin]: Plugin is enabled!");
     }
     @Override
     public void onDisable()
     {
+        DataManager dataManager = DataManager.getInstance();
+
         for(Map.Entry<UUID,Inventory> entry:backpack.getBackpackHashMap().entrySet())
         {
             if(!DataManager.getInstance().getConfig().contains("backpacks."+entry.getKey()))
@@ -38,6 +57,8 @@ public class Main extends JavaPlugin {
             }
 
             char c = 'a';
+
+            dataManager.getConfig().set("backpacks."+entry.getKey(),null);
 
             for(ItemStack itemStack: entry.getValue())
             {

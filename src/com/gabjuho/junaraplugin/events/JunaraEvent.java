@@ -3,11 +3,11 @@ package com.gabjuho.junaraplugin.events;
 import com.gabjuho.junaraplugin.backpack.Backpack;
 import com.gabjuho.junaraplugin.stat.Stat;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,16 +34,28 @@ public class JunaraEvent implements Listener {
             if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN+"스텟"))
             {
                 event.setCancelled(true);
-
-                if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
-                    stat.open(player);
+                if(player.getGameMode() == GameMode.SURVIVAL)
+                {
+                    if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
+                        stat.open(player);
+                }
+                else
+                {
+                    player.sendMessage(ChatColor.RED + "[System]: GUI창은 서바이벌 상태에서만 클릭해주세요.");
+                }
             }
             else if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.LIGHT_PURPLE+"가방"))
             {
                 event.setCancelled(true);
-
-                if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
-                    backpack.open(player);
+                if(player.getGameMode() == GameMode.SURVIVAL)
+                {
+                    if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
+                        backpack.open(player);
+                }
+                else
+                {
+                    player.sendMessage(ChatColor.RED + "[System]: GUI창은 서바이벌 상태에서만 클릭해주세요.");
+                }
             }
         }
     }
@@ -52,14 +64,5 @@ public class JunaraEvent implements Listener {
     {
         Player player = (Player) event.getPlayer();
         player.setItemOnCursor(null);
-    }
-
-    @EventHandler
-    public static void onGetItem(EntityPickupItemEvent event)
-    {
-        Player player = (Player) event.getEntity();
-        ItemStack item = event.getItem().getItemStack();
-
-        player.sendMessage(item.getType().name());
     }
 }

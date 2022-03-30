@@ -2,9 +2,12 @@ package com.gabjuho.junaraplugin.backpack;
 
 import com.gabjuho.junaraplugin.DataManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -57,5 +60,34 @@ public class BackpackEvent implements Listener {
         }
 
         dataManager.saveConfig();
+    }
+
+    @EventHandler
+    public static void onGetItem(EntityPickupItemEvent event)
+    {
+        Player player = (Player) event.getEntity();
+        ItemStack item = event.getItem().getItemStack();
+        Inventory inv = backpack.getBackpackHashMap().get(player.getUniqueId());
+
+        if(inv != null)
+        {
+            event.setCancelled(true);
+            if(inv.firstEmpty() != -1) {
+                event.getItem().remove();
+
+                //아이템 꽉찼을 때 구현
+                //아예 비어있을 때도 문제가 생김
+                inv.addItem(item);
+                backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
+            }
+//            else
+//            {
+//                player.sendMessage(ChatColor.RED + "인벤토리가 꽉 찼습니다."); // 이 문구가 아이템 주을 때 마다 생성되서 task 이용해서 해볼 예정 (퀘스트 텍스트에도 영향을 끼칠 수 있으므로)
+//            }
+        }
+        else
+        {
+            player.sendMessage("인벤토리가 존재하지 않습니다.");
+        }
     }
 }
