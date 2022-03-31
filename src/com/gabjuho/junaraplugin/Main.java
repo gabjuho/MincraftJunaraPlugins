@@ -58,7 +58,13 @@ public class Main extends JavaPlugin {
 
             char c = 'a';
 
-            dataManager.getConfig().set("backpacks."+entry.getKey(),null);
+            if(dataManager.getConfig().contains("backpacks."+entry.getKey()))
+            {
+                for (String item : dataManager.getConfig().getConfigurationSection("backpacks." + entry.getKey()).getKeys(false))
+                {
+                    dataManager.getConfig().set("backpacks."+entry.getKey()+"."+item,null); //인벤토리가 비어있을 때, config저장시 uuid섹션 사라지는 버그 수정
+                }
+            }
 
             for(ItemStack itemStack: entry.getValue())
             {

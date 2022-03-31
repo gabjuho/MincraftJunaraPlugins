@@ -48,7 +48,13 @@ public class BackpackEvent implements Listener {
 
         char c = 'a';
 
-        dataManager.getConfig().set("backpacks."+player.getUniqueId(),null);
+        if(dataManager.getConfig().contains("backpacks."+player.getUniqueId()))
+        {
+            for (String item : dataManager.getConfig().getConfigurationSection("backpacks." + player.getUniqueId()).getKeys(false))
+            {
+                dataManager.getConfig().set("backpacks."+player.getUniqueId()+"."+item,null); //인벤토리가 비어있을 때, config저장시 uuid섹션 사라지는 버그 수정
+            }
+        }
 
         for(ItemStack itemStack: backpack.getBackpackHashMap().get(player.getUniqueId())) // 서버 리로드 시 해쉬맵이 초기화되서, get에서 null이 반환됨
         {
@@ -74,9 +80,6 @@ public class BackpackEvent implements Listener {
             event.setCancelled(true);
             if(inv.firstEmpty() != -1) {
                 event.getItem().remove();
-
-                //아이템 꽉찼을 때 구현
-                //아예 비어있을 때도 문제가 생김
                 inv.addItem(item);
                 backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
             }
