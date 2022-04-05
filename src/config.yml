@@ -1,0 +1,33 @@
+#Caution!! Don't click gui when player's mode is creative. (if you do this, gui's item will be copied)
+
+attack-damage:
+  stat-name: "Attack Damage"
+  stat-description: "increase 0.1 damage per stat point"
+  max-level: 10
+  value-per-stat: 0.1
+
+max-health:
+  stat-name: "Health"
+  stat-description: "increase 0.5 health per stat point"
+  max-level: 5
+  value-per-stat: 0.5
+
+defense:
+  stat-name: "Defense"
+  stat-description: "increase 0.1 defense per stat point"
+  max-level: 5
+  value-per-stat: 0.1
+
+attack-speed:
+  stat-name: "Attack Speed"
+  stat-description: "increase 0.1 attack speed per stat point"
+  max-level: 5
+  value-per-stat: 0.1
+
+movement-speed:
+  stat-name: "Movement speed"
+  stat-description: "increase 0.1 movement speed per stat point"
+  max-level: 3
+  value-per-stat: 0.1
+
+automatic-gui-setting: false
