@@ -44,7 +44,7 @@ public class StatCommand implements CommandExecutor {
                 try
                 {
                     int statPoint = Integer.parseInt(args[0]);
-                    data.getConfig().set("stat." + player.getUniqueId() + ".스텟포인트",statPoint);
+                    data.getDataConfig().set("stat." + player.getUniqueId() + ".스텟포인트",statPoint);
                     data.saveConfig();
                     player.sendMessage("스텟포인트가 " + statPoint + "만큼 세팅되었습니다.");
                 }
@@ -60,7 +60,7 @@ public class StatCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("iniAttack")){
-            data.getConfig().set("stat." + player.getUniqueId() + ".공격력포인트",0);
+            data.getDataConfig().set("stat." + player.getUniqueId() + ".공격력포인트",0);
             data.saveConfig();
             player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 
@@ -69,7 +69,7 @@ public class StatCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("iniHealth")){
-            data.getConfig().set("stat." + player.getUniqueId() + ".체력포인트",0);
+            data.getDataConfig().set("stat." + player.getUniqueId() + ".체력포인트",0);
             data.saveConfig();
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 
@@ -78,7 +78,7 @@ public class StatCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("iniDefense")){
-            data.getConfig().set("stat." + player.getUniqueId() + ".방어력포인트",0);
+            data.getDataConfig().set("stat." + player.getUniqueId() + ".방어력포인트",0);
             data.saveConfig();
             player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
 
@@ -87,7 +87,7 @@ public class StatCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("iniAttackSpeed")){
-            data.getConfig().set("stat." + player.getUniqueId() + ".공격속도포인트",0);
+            data.getDataConfig().set("stat." + player.getUniqueId() + ".공격속도포인트",0);
             data.saveConfig();
             player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 
@@ -96,7 +96,7 @@ public class StatCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("iniMovementSpeed")){
-            data.getConfig().set("stat." + player.getUniqueId() + ".이동속도포인트",0);
+            data.getDataConfig().set("stat." + player.getUniqueId() + ".이동속도포인트",0);
             data.saveConfig();
             player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
 

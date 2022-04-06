@@ -29,13 +29,13 @@ public class Main extends JavaPlugin {
         registerCommand();
         DataManager dataManager = DataManager.getInstance();
 
-        for (String uuid : dataManager.getConfig().getConfigurationSection("backpacks").getKeys(false)) {
-            if(dataManager.getConfig().contains("backpacks."+uuid))
+        for (String uuid : dataManager.getDataConfig().getConfigurationSection("backpacks").getKeys(false)) {
+            if(dataManager.getDataConfig().contains("backpacks."+uuid))
             {
                 Inventory inv = Bukkit.createInventory(null, InventoryType.CHEST,"가방");
-                for(String item: dataManager.getConfig().getConfigurationSection("backpacks." + uuid).getKeys(false))
+                for(String item: dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid).getKeys(false))
                 {
-                    inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getConfig().getConfigurationSection("backpacks." + uuid + "." + item))));
+                    inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid + "." + item))));
                 }
                 backpack.getBackpackHashMap().put(UUID.fromString(uuid),inv);
             }
@@ -51,18 +51,18 @@ public class Main extends JavaPlugin {
 
         for(Map.Entry<UUID,Inventory> entry:backpack.getBackpackHashMap().entrySet())
         {
-            if(!DataManager.getInstance().getConfig().contains("backpacks."+entry.getKey()))
+            if(!DataManager.getInstance().getDataConfig().contains("backpacks."+entry.getKey()))
             {
-                DataManager.getInstance().getConfig().createSection("backpacks."+entry.getKey());
+                DataManager.getInstance().getDataConfig().createSection("backpacks."+entry.getKey());
             }
 
             char c = 'a';
 
-            if(dataManager.getConfig().contains("backpacks."+entry.getKey()))
+            if(dataManager.getDataConfig().contains("backpacks."+entry.getKey()))
             {
-                for (String item : dataManager.getConfig().getConfigurationSection("backpacks." + entry.getKey()).getKeys(false))
+                for (String item : dataManager.getDataConfig().getConfigurationSection("backpacks." + entry.getKey()).getKeys(false))
                 {
-                    dataManager.getConfig().set("backpacks."+entry.getKey()+"."+item,null); //인벤토리가 비어있을 때, config저장시 uuid섹션 사라지는 버그 수정
+                    dataManager.getDataConfig().set("backpacks."+entry.getKey()+"."+item,null); //인벤토리가 비어있을 때, config저장시 uuid섹션 사라지는 버그 수정
                 }
             }
 
@@ -70,7 +70,7 @@ public class Main extends JavaPlugin {
             {
                 if(itemStack != null)
                 {
-                    backpack.saveItem(DataManager.getInstance().getConfig().createSection("backpacks."+entry.getKey() + "." + c++),itemStack);
+                    backpack.saveItem(DataManager.getInstance().getDataConfig().createSection("backpacks."+entry.getKey() + "." + c++),itemStack);
                 }
             }
             DataManager.getInstance().saveConfig();

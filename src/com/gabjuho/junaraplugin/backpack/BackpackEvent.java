@@ -25,11 +25,11 @@ public class BackpackEvent implements Listener {
         Player player = event.getPlayer();
         Inventory inv = Bukkit.createInventory(null, InventoryType.CHEST,"가방"); // owner를 player에서 null로 변경
 
-        if(dataManager.getConfig().contains("backpacks."+player.getUniqueId()))
+        if(dataManager.getDataConfig().contains("backpacks."+player.getUniqueId()))
         {
-            for(String item:dataManager.getConfig().getConfigurationSection("backpacks." + player.getUniqueId()).getKeys(false))
+            for(String item:dataManager.getDataConfig().getConfigurationSection("backpacks." + player.getUniqueId()).getKeys(false))
             {
-                inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getConfig().getConfigurationSection("backpacks." + player.getUniqueId() + "." + item))));
+                inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getDataConfig().getConfigurationSection("backpacks." + player.getUniqueId() + "." + item))));
             }
         }
         backpack.getBackpackHashMap().put(player.getUniqueId(),inv);
@@ -39,18 +39,18 @@ public class BackpackEvent implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event)
     {
         Player player = event.getPlayer();
-        if(!dataManager.getConfig().contains("backpacks."+player.getUniqueId()))
+        if(!dataManager.getDataConfig().contains("backpacks."+player.getUniqueId()))
         {
-            dataManager.getConfig().createSection("backpacks."+player.getUniqueId());
+            dataManager.getDataConfig().createSection("backpacks."+player.getUniqueId());
         }
 
         char c = 'a';
 
-        if(dataManager.getConfig().contains("backpacks."+player.getUniqueId()))
+        if(dataManager.getDataConfig().contains("backpacks."+player.getUniqueId()))
         {
-            for (String item : dataManager.getConfig().getConfigurationSection("backpacks." + player.getUniqueId()).getKeys(false))
+            for (String item : dataManager.getDataConfig().getConfigurationSection("backpacks." + player.getUniqueId()).getKeys(false))
             {
-                dataManager.getConfig().set("backpacks."+player.getUniqueId()+"."+item,null); //인벤토리가 비어있을 때, config저장시 uuid섹션 사라지는 버그 수정
+                dataManager.getDataConfig().set("backpacks."+player.getUniqueId()+"."+item,null); //인벤토리가 비어있을 때, config저장시 uuid섹션 사라지는 버그 수정
             }
         }
 
@@ -58,7 +58,7 @@ public class BackpackEvent implements Listener {
         {
             if(itemStack != null)
             {
-                backpack.saveItem(DataManager.getInstance().getConfig().createSection("backpacks."+player.getUniqueId() + "." + c++),itemStack);
+                backpack.saveItem(DataManager.getInstance().getDataConfig().createSection("backpacks."+player.getUniqueId() + "." + c++),itemStack);
                 //아이템을 넣는 건 저장이 되는데, 빼는 건 저장이 안됨. -> 해결됨
             }
         }
