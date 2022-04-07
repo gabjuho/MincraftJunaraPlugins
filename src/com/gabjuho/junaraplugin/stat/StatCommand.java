@@ -45,7 +45,7 @@ public class StatCommand implements CommandExecutor {
                 {
                     int statPoint = Integer.parseInt(args[0]);
                     data.getDataConfig().set("stat." + player.getUniqueId() + ".스텟포인트",statPoint);
-                    data.saveConfig();
+                    data.saveDataConfig();
                     player.sendMessage("스텟포인트가 " + statPoint + "만큼 세팅되었습니다.");
                 }
                 catch (IllegalArgumentException e){
@@ -61,7 +61,7 @@ public class StatCommand implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("iniAttack")){
             data.getDataConfig().set("stat." + player.getUniqueId() + ".공격력포인트",0);
-            data.saveConfig();
+            data.saveDataConfig();
             player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
 
             player.sendMessage("[System]: 공격력 스텟과 능력이 초기화 되었습니다!");
@@ -70,7 +70,7 @@ public class StatCommand implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("iniHealth")){
             data.getDataConfig().set("stat." + player.getUniqueId() + ".체력포인트",0);
-            data.saveConfig();
+            data.saveDataConfig();
             player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 
             player.sendMessage("[System]: 체력 스텟과 능력이 초기화 되었습니다!");
@@ -79,7 +79,7 @@ public class StatCommand implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("iniDefense")){
             data.getDataConfig().set("stat." + player.getUniqueId() + ".방어력포인트",0);
-            data.saveConfig();
+            data.saveDataConfig();
             player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
 
             player.sendMessage("[System]: 방어력 스텟과 능력이 초기화 되었습니다!");
@@ -88,7 +88,7 @@ public class StatCommand implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("iniAttackSpeed")){
             data.getDataConfig().set("stat." + player.getUniqueId() + ".공격속도포인트",0);
-            data.saveConfig();
+            data.saveDataConfig();
             player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
 
             player.sendMessage("[System]: 공격속도 스텟과 능력이 초기화 되었습니다!");
@@ -97,7 +97,7 @@ public class StatCommand implements CommandExecutor {
 
         if (cmd.getName().equalsIgnoreCase("iniMovementSpeed")){
             data.getDataConfig().set("stat." + player.getUniqueId() + ".이동속도포인트",0);
-            data.saveConfig();
+            data.saveDataConfig();
             player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
 
             player.sendMessage("[System]: 이동속도 스텟과 능력이 초기화 되었습니다!");

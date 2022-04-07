@@ -63,7 +63,7 @@ public class BackpackEvent implements Listener {
             }
         }
 
-        dataManager.saveConfig();
+        dataManager.saveDataConfig();
     }
 
     @EventHandler

@@ -81,7 +81,7 @@ public class Stat {
     {
         if(event.getView().getTitle().equals("스텟"))
         {
-            dataManager.saveConfig();
+            dataManager.saveDataConfig();
         }
     }
 }

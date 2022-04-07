@@ -73,7 +73,7 @@ public class Main extends JavaPlugin {
                     backpack.saveItem(DataManager.getInstance().getDataConfig().createSection("backpacks."+entry.getKey() + "." + c++),itemStack);
                 }
             }
-            DataManager.getInstance().saveConfig();
+            DataManager.getInstance().saveDataConfig();
         }
 
         getServer().getConsoleSender().sendMessage(ChatColor.RED + "[JunaraPlugin]: Plugin is disabled!");

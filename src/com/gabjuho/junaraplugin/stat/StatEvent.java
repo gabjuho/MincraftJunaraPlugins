@@ -27,7 +27,7 @@ public class StatEvent implements Listener {
             dataManager.getDataConfig().set("stat." + player.getUniqueId() + ".방어력포인트",0);
             dataManager.getDataConfig().set("stat." + player.getUniqueId() + ".공격속도포인트",0);
             dataManager.getDataConfig().set("stat." + player.getUniqueId() + ".이동속도포인트",0);
-            dataManager.saveConfig();
+            dataManager.saveDataConfig();
         }
         else
         {
