@@ -11,54 +11,84 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Stat {
     static DataManager dataManager = DataManager.getInstance(); //데이터매니저 싱글톤 객체로 불러옴
 
+    private ItemStack makeStatGUIItemStack(Material material, int customModelData, String displayName, List<String> Lore)
+    {
+        ItemStack itemStack;
+        ItemMeta meta;
+
+        itemStack = makeStatGUIItemStack(material,customModelData,displayName);
+        meta = itemStack.getItemMeta();
+        meta.setLore(Lore);
+
+//        itemStack = new ItemStack(material);
+//        meta = itemStack.getItemMeta();
+//        meta.setCustomModelData(customModelData);
+//        meta.setDisplayName(displayName);
+//        meta.setLore(Arrays.asList(ChatColor.GREEN + Lore));
+//        itemStack.setItemMeta(meta);
+//        위에 문장이 더 가독성적으로 좋은지 아래 문장이 가독성적으로 좋은지 비교하기 위해 주석처리해놓음
+        
+        itemStack.setItemMeta(meta);
+
+        return itemStack;
+    }
+    private ItemStack makeStatGUIItemStack(Material material, int customModelData, String displayName)
+    {
+        ItemStack itemStack;
+        ItemMeta meta;
+
+        itemStack = new ItemStack(material);
+        meta = itemStack.getItemMeta();
+        meta.setCustomModelData(customModelData);
+        meta.setDisplayName(displayName);
+        itemStack.setItemMeta(meta);
+
+        return itemStack;
+    }
+
 
     public void open(Player player) {
 
-        ItemStack stat1,stat2,stat3,stat4,stat5;
-        ItemMeta meta1,meta2,meta3,meta4,meta5;
-
+        ItemStack attackStat,healthStat,defenseStat,attackSpeedStat,movementSpeedStat;
         ItemStack background;
-        ItemMeta metaBackground;
 
-        background = new ItemStack(Material.GLASS_PANE);
-        metaBackground = background.getItemMeta();
-        metaBackground.setDisplayName("");
-        background.setItemMeta(metaBackground);
+        background = makeStatGUIItemStack(Material.GLASS_PANE,200,"");
 
-        stat1 = new ItemStack(Material.DIAMOND_SWORD);
-        meta1 = stat1.getItemMeta();
-        meta1.setDisplayName("공격력");
-        meta1.setLore(Arrays.asList(ChatColor.GREEN + "현재 공격력 스텟: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".공격력포인트"), "스텟당 공격력이 0.1 증가합니다.", ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트")));
-        stat1.setItemMeta(meta1);
+        List<String> attackLore = new ArrayList<>();
+        attackLore.add(ChatColor.GREEN+"현재 공격력 스텟: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".공격력포인트"));
+        attackLore.add("스텟당 공격력이 0.1 증가합니다.");
+        attackLore.add(ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트"));
+        attackStat = makeStatGUIItemStack(Material.DIAMOND_SWORD,200,"공격력",attackLore);
 
-        stat2 = new ItemStack(Material.TOTEM_OF_UNDYING);
-        meta2 = stat2.getItemMeta();
-        meta2.setDisplayName("체력");
-        meta2.setLore(Arrays.asList(ChatColor.GREEN + "현재 체력 스텟: "+ dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".체력포인트"), "스텟당 체력이 0.5 증가합니다.", ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트")));
-        stat2.setItemMeta(meta2);
+        List<String> healthLore = new ArrayList<>();
+        healthLore.add(ChatColor.GREEN+"현재 체력 스텟: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".체력포인트"));
+        healthLore.add("스텟당 체력이 0.5 증가합니다.");
+        healthLore.add(ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트"));
+        healthStat = makeStatGUIItemStack(Material.TOTEM_OF_UNDYING,200,"체력",healthLore);
 
-        stat3 = new ItemStack(Material.DIAMOND_CHESTPLATE);
-        meta3 = stat3.getItemMeta();
-        meta3.setDisplayName("방어력");
-        meta3.setLore(Arrays.asList(ChatColor.GREEN + "현재 방어력 스텟: "+ dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".방어력포인트"), "스텟당 방어력이 0.1 증가합니다.", ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트")));
-        stat3.setItemMeta(meta3);
+        List<String> defenseLore = new ArrayList<>();
+        defenseLore.add(ChatColor.GREEN+"현재 방어력 스텟: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".방어력포인트"));
+        defenseLore.add("스텟당 방어력이 0.1 증가합니다.");
+        defenseLore.add(ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트"));
+        defenseStat = makeStatGUIItemStack(Material.DIAMOND_CHESTPLATE,200,"방어력",defenseLore);
 
-        stat4 = new ItemStack(Material.FEATHER);
-        meta4 = stat4.getItemMeta();
-        meta4.setDisplayName("공격속도");
-        meta4.setLore(Arrays.asList(ChatColor.GREEN + "현재 공격속도 스텟: "+ dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".공격속도포인트"), "스텟당 공격속도가 0.1 증가합니다.", ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트")));
-        stat4.setItemMeta(meta4);
+        List<String> attackSpeedLore = new ArrayList<>();
+        attackSpeedLore.add(ChatColor.GREEN+"현재 공격속도 스텟: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".공격속도포인트"));
+        attackSpeedLore.add("스텟당 공격속도가 0.1 증가합니다.");
+        attackSpeedLore.add(ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트"));
+        attackSpeedStat = makeStatGUIItemStack(Material.FEATHER,200,"공격속도",attackSpeedLore);
 
-        stat5 = new ItemStack(Material.GOLDEN_BOOTS);
-        meta5 = stat5.getItemMeta();
-        meta5.setDisplayName("이동속도");
-        meta5.setLore(Arrays.asList(ChatColor.GREEN + "현재 이동속도 스텟: "+ dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".이동속도포인트"), "스텟당 이동속도가 0.1 증가합니다.", ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트")));
-        stat5.setItemMeta(meta5);
+        List<String> movementSpeedLore = new ArrayList<>();
+        movementSpeedLore.add(ChatColor.GREEN+"현재 이동속도 스텟: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".이동속도포인트"));
+        movementSpeedLore.add("스텟당 이동속도가 0.1 증가합니다.");
+        movementSpeedLore.add(ChatColor.WHITE + "가진 스텟포인트: " + dataManager.getDataConfig().get("stat." + player.getUniqueId() + ".스텟포인트"));
+        movementSpeedStat = makeStatGUIItemStack(Material.GOLDEN_BOOTS,200,"이동속도",movementSpeedLore);
 
         Inventory inv = Bukkit.createInventory(null, 27, "스텟");
 
@@ -67,11 +97,11 @@ public class Stat {
             inv.setItem(i,background);
         }
 
-        inv.setItem(1, stat1);
-        inv.setItem(4, stat2);
-        inv.setItem(7, stat3);
-        inv.setItem(21,stat4);
-        inv.setItem(23,stat5);
+        inv.setItem(1, attackStat);
+        inv.setItem(4, healthStat);
+        inv.setItem(7, defenseStat);
+        inv.setItem(21,attackSpeedStat);
+        inv.setItem(23,movementSpeedStat);
 
         player.openInventory(inv);
     }
