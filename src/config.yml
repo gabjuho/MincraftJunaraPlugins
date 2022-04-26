@@ -5,23 +5,23 @@ stat:
   inventory-placing: 9
   item: GLASS_PANE
   custom-model-data: 2000
-  name: "Stat"
-  description: "Upgrade your ability"
+  name: Stat
+  description: Upgrade your ability
 
 backpack:
   inventory-size: 27
   inventory-placing: 10
   item: BUNDLE
   custom-model-data: 2000
-  name: "Backpack"
-  description: "Open your backpack"
+  name: Backpack
+  description: Open your backpack
 
 attack-damage:
   inventory-placing: 1
   stat-item: DIAMOND_SWORD
   stat-item-custommodeldata: 1
-  stat-name: "Attack Damage"
-  stat-description: "increase 0.1 damage per stat point"
+  stat-name: Attack Damage
+  stat-description: increase 0.1 damage per stat point
   max-level: 10
   value-per-stat: 0.1
 
@@ -29,8 +29,8 @@ max-health:
   inventory-placing: 4
   stat-item: TOTEM_OF_UNDYING
   stat-item-custommodeldata: 1
-  stat-name: "Health"
-  stat-description: "increase 0.5 health per stat point"
+  stat-name: Health
+  stat-description: increase 0.5 health per stat point
   max-level: 5
   value-per-stat: 0.5
 
@@ -38,8 +38,8 @@ defense:
   inventory-placing: 7
   stat-item: DIAMOND_CHESTPLATE
   stat-item-custommodeldata: 1
-  stat-name: "Defense"
-  stat-description: "increase 0.1 defense per stat point"
+  stat-name: Defense
+  stat-description: increase 0.1 defense per stat point
   max-level: 5
   value-per-stat: 0.1
 
@@ -47,8 +47,8 @@ attack-speed:
   inventory-placing: 21
   stat-item: FEATHER
   stat-item-custommodeldata: 1
-  stat-name: "Attack Speed"
-  stat-description: "increase 0.1 attack speed per stat point"
+  stat-name: Attack Speed
+  stat-description: increase 0.1 attack speed per stat point
   max-level: 5
   value-per-stat: 0.1
 
@@ -56,8 +56,8 @@ movement-speed:
   inventory-placing: 23
   stat-item: GOLDEN_BOOTS
   stat-item-custommodeldata: 1
-  stat-name: "Movement speed"
-  stat-description: "increase 0.1 movement speed per stat point"
+  stat-name: Movement speed
+  stat-description: increase 0.1 movement speed per stat point
   max-level: 3
   value-per-stat: 0.1
 
