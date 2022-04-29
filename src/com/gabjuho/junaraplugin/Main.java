@@ -96,7 +96,7 @@ public class Main extends JavaPlugin {
         getCommand("tpWindow").setExecutor(mainCommands);
 
         //스텟 관련 커멘드
-        getCommand("stat").setExecutor(statCommands);
+        getCommand("setStat").setExecutor(statCommands);
         getCommand("setSP").setExecutor(statCommands);
         getCommand("iniAttack").setExecutor(statCommands);
         getCommand("iniHealth").setExecutor(statCommands);
@@ -105,6 +105,6 @@ public class Main extends JavaPlugin {
         getCommand("iniMovementSpeed").setExecutor(statCommands);
         
         //가방 관련 커멘드
-        getCommand("backpack").setExecutor(backpackCommand);
+        getCommand("setBackpack").setExecutor(backpackCommand);
     }
 }

@@ -27,7 +27,7 @@ public class StatCommand implements CommandExecutor {
         }
         Player player = (Player)sender;
 
-        if (cmd.getName().equalsIgnoreCase("stat")){
+        if (cmd.getName().equalsIgnoreCase("setStat")){
             ItemStack item = new ItemStack(Material.valueOf(data.getConfig().getString("stat.item")));
             ItemMeta meta = item.getItemMeta();
             if(meta != null) {
