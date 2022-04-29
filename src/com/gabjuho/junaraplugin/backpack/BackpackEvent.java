@@ -23,7 +23,7 @@ public class BackpackEvent implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        Inventory inv = Bukkit.createInventory(null, InventoryType.CHEST,"가방"); // owner를 player에서 null로 변경
+        Inventory inv = Bukkit.createInventory(null, dataManager.getConfig().getInt("backpack.inventory-size"),"가방"); // owner를 player에서 null로 변경
 
         if(dataManager.getDataConfig().contains("backpacks."+player.getUniqueId()))
         {

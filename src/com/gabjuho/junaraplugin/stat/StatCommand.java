@@ -28,13 +28,19 @@ public class StatCommand implements CommandExecutor {
         Player player = (Player)sender;
 
         if (cmd.getName().equalsIgnoreCase("stat")){
-            ItemStack item = new ItemStack(Material.GLASS_PANE);
+            ItemStack item = new ItemStack(Material.valueOf(data.getConfig().getString("stat.item")));
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(ChatColor.GREEN+"스텟");
-            meta.setLore(Arrays.asList(ChatColor.WHITE+"자신의 능력치를 확인할 수 있는 명함이다."));
-            item.setItemMeta(meta);
-            player.getInventory().setItem(9,item);
-            sender.sendMessage("스텟창이 세팅되었습니다.");
+            if(meta != null) {
+                meta.setDisplayName(ChatColor.GREEN + data.getConfig().getString("stat.name"));
+                meta.setLore(Arrays.asList(ChatColor.WHITE + data.getConfig().getString("stat.description")));
+                meta.setCustomModelData(data.getConfig().getInt("stat.custom-model-data"));
+                item.setItemMeta(meta);
+                player.getInventory().setItem(data.getConfig().getInt("stat.inventory-placing"), item);
+                sender.sendMessage("스텟창이 세팅되었습니다.");
+            }
+            else {
+                sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
+            }
             return true;
         }
 

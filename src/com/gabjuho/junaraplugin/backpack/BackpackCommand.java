@@ -1,5 +1,6 @@
 package com.gabjuho.junaraplugin.backpack;
 
+import com.gabjuho.junaraplugin.DataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -23,14 +24,19 @@ public class BackpackCommand implements CommandExecutor{
         Player player = (Player)sender;
 
         if (cmd.getName().equalsIgnoreCase("backpack")){
-            ItemStack item = new ItemStack(Material.BUNDLE);
+            ItemStack item = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(ChatColor.LIGHT_PURPLE+"가방");
-            meta.setLore(Arrays.asList(ChatColor.WHITE+"아이템을 넣을 수 있는 가방이다."));
-            item.setItemMeta(meta);
-            player.getInventory().setItem(10,item);
-            sender.sendMessage("가방창이 세팅되었습니다.");
-            return true;
+            if(meta != null) {
+                meta.setDisplayName(ChatColor.LIGHT_PURPLE + DataManager.getInstance().getConfig().getString("backpack.name"));
+                meta.setLore(Arrays.asList(ChatColor.WHITE + DataManager.getInstance().getConfig().getString("backpack.description")));
+                meta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
+                item.setItemMeta(meta);
+                player.getInventory().setItem(DataManager.getInstance().getConfig().getInt("backpack.inventory-placing"), item);
+                sender.sendMessage("가방창이 세팅되었습니다.");
+            }
+            else{
+                sender.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
+            }
         }
 
         return true;
