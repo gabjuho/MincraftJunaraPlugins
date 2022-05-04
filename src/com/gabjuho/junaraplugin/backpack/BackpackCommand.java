@@ -1,7 +1,7 @@
 package com.gabjuho.junaraplugin.backpack;
 
 import com.gabjuho.junaraplugin.DataManager;
-import org.bukkit.ChatColor;
+import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,8 +27,8 @@ public class BackpackCommand implements CommandExecutor{
             ItemStack item = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
             ItemMeta meta = item.getItemMeta();
             if(meta != null) {
-                meta.setDisplayName(ChatColor.LIGHT_PURPLE + DataManager.getInstance().getConfig().getString("backpack.name"));
-                meta.setLore(Arrays.asList(ChatColor.WHITE + DataManager.getInstance().getConfig().getString("backpack.description")));
+                meta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("backpack.name")));
+                meta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("backpack.description"))));
                 meta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
                 item.setItemMeta(meta);
 

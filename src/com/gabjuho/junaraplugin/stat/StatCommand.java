@@ -1,6 +1,7 @@
 package com.gabjuho.junaraplugin.stat;
 
 import com.gabjuho.junaraplugin.DataManager;
+import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -32,8 +33,8 @@ public class StatCommand implements CommandExecutor {
             ItemMeta meta = item.getItemMeta();
 
             if(meta != null) {
-                meta.setDisplayName(ChatColor.GREEN + data.getConfig().getString("stat.name"));
-                meta.setLore(Arrays.asList(ChatColor.WHITE + data.getConfig().getString("stat.description")));
+                meta.setDisplayName(Util.format(data.getConfig().getString("stat.name")));
+                meta.setLore(Arrays.asList(Util.format(data.getConfig().getString("stat.description"))));
                 meta.setCustomModelData(data.getConfig().getInt("stat.custom-model-data"));
                 item.setItemMeta(meta);
 

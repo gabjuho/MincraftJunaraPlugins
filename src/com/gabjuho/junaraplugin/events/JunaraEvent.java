@@ -3,6 +3,7 @@ package com.gabjuho.junaraplugin.events;
 import com.gabjuho.junaraplugin.DataManager;
 import com.gabjuho.junaraplugin.backpack.Backpack;
 import com.gabjuho.junaraplugin.stat.Stat;
+import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -24,7 +25,7 @@ public class JunaraEvent implements Listener {
 
         if(event.getCurrentItem() != null)
         {
-            if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN+config.getString("stat.name"))) // **이름 변경하다보면 겹칠 수 있음
+            if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(Util.format(config.getString("stat.name")))) // **이름 변경하다보면 겹칠 수 있음
             {
                 event.setCancelled(true);
                 if(player.getGameMode() == GameMode.SURVIVAL)
@@ -37,7 +38,7 @@ public class JunaraEvent implements Listener {
                     player.sendMessage(ChatColor.RED + "[System]: GUI창은 서바이벌 상태에서만 클릭해주세요. (gui창이 복제됩니다.)");
                 }
             }
-            else if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.LIGHT_PURPLE+config.getString("backpack.name")))
+            else if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(Util.format(config.getString("backpack.name"))))
             {
                 event.setCancelled(true);
                 if(player.getGameMode() == GameMode.SURVIVAL)
