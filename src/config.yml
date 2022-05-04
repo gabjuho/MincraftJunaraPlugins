@@ -1,4 +1,6 @@
 #Caution!! Don't click gui when player's mode is creative. (if you do this, gui's item will be copied)
+#inventory-placing은 나머지 기능들과 동시에 변경하지마세요. (변경하셨다면, 변경된 요소 아이템이 하나가 더 복제될 것입니다.)
+#이미 변경 하셨을 때에 대한 해결책은 전에 세팅되어있던 아이템 자리에 inventory-placing 값을 변경해주고 리로드한 후 setbackpack 명령어를 입력해주세요.
 
 stat:
   inventory-size: 27
