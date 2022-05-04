@@ -9,7 +9,6 @@ import com.gabjuho.junaraplugin.stat.StatCommand;
 import com.gabjuho.junaraplugin.stat.StatEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,7 +31,7 @@ public class Main extends JavaPlugin {
         for (String uuid : dataManager.getDataConfig().getConfigurationSection("backpacks").getKeys(false)) {
             if(dataManager.getDataConfig().contains("backpacks."+uuid))
             {
-                Inventory inv = Bukkit.createInventory(null, InventoryType.CHEST,"가방");
+                Inventory inv = Bukkit.createInventory(null, DataManager.getInstance().getConfig().getInt("backpack.inventory-size"),"가방");
                 for(String item: dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid).getKeys(false))
                 {
                     inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid + "." + item))));
