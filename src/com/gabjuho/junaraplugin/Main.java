@@ -27,19 +27,17 @@ public class Main extends JavaPlugin {
         registerEvent();
         registerCommand();
         DataManager dataManager = DataManager.getInstance();
-
-        for (String uuid : dataManager.getDataConfig().getConfigurationSection("backpacks").getKeys(false)) {
-            if(dataManager.getDataConfig().contains("backpacks."+uuid))
-            {
-                Inventory inv = Bukkit.createInventory(null, DataManager.getInstance().getConfig().getInt("backpack.inventory-size"),"가방");
-                for(String item: dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid).getKeys(false))
-                {
-                    inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid + "." + item))));
+        if(dataManager.getDataConfig().contains("backpacks")) {
+            for (String uuid : dataManager.getDataConfig().getConfigurationSection("backpacks").getKeys(false)) {
+                if (dataManager.getDataConfig().contains("backpacks." + uuid)) {
+                    Inventory inv = Bukkit.createInventory(null, DataManager.getInstance().getConfig().getInt("backpack.inventory-size"), "가방");
+                    for (String item : dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid).getKeys(false)) {
+                        inv.addItem(backpack.loadItem(Objects.requireNonNull(dataManager.getDataConfig().getConfigurationSection("backpacks." + uuid + "." + item))));
+                    }
+                    backpack.getBackpackHashMap().put(UUID.fromString(uuid), inv);
                 }
-                backpack.getBackpackHashMap().put(UUID.fromString(uuid),inv);
             }
         }
-
 
         getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[JunaraPlugin]: Plugin is enabled!");
     }
