@@ -31,6 +31,9 @@ public class BackpackCommand implements CommandExecutor{
                 meta.setLore(Arrays.asList(ChatColor.WHITE + DataManager.getInstance().getConfig().getString("backpack.description")));
                 meta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
                 item.setItemMeta(meta);
+
+                if(player.getInventory().contains(item))
+                    player.getInventory().remove(item);
                 player.getInventory().setItem(DataManager.getInstance().getConfig().getInt("backpack.inventory-placing"), item);
                 sender.sendMessage("가방창이 세팅되었습니다.");
             }

@@ -30,11 +30,15 @@ public class StatCommand implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("setStat")){
             ItemStack item = new ItemStack(Material.valueOf(data.getConfig().getString("stat.item")));
             ItemMeta meta = item.getItemMeta();
+
             if(meta != null) {
                 meta.setDisplayName(ChatColor.GREEN + data.getConfig().getString("stat.name"));
                 meta.setLore(Arrays.asList(ChatColor.WHITE + data.getConfig().getString("stat.description")));
                 meta.setCustomModelData(data.getConfig().getInt("stat.custom-model-data"));
                 item.setItemMeta(meta);
+
+                if(player.getInventory().contains(item))
+                    player.getInventory().remove(item);
                 player.getInventory().setItem(data.getConfig().getInt("stat.inventory-placing"), item);
                 sender.sendMessage("스텟창이 세팅되었습니다.");
             }
