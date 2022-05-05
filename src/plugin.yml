@@ -31,3 +31,9 @@ commands:
   tpWindow:
     description: tp윈도우창 띄우기
     usage: /<command>
+  stat:
+    description: 스텟창 띄우기
+    usage: /<command>
+  backpack:
+    description: 가방창 띄우기
+    usage: /<command>

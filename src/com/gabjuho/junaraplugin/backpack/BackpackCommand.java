@@ -16,6 +16,8 @@ public class BackpackCommand implements CommandExecutor{
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
+        Backpack backpack = new Backpack();
+
         if(!(sender instanceof Player))
         {
             sender.sendMessage("오직 플레이어만 명령어를 사용할 수 있습니다.");
@@ -40,6 +42,10 @@ public class BackpackCommand implements CommandExecutor{
             else{
                 sender.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
             }
+        }
+
+        if (cmd.getName().equalsIgnoreCase("backpack")) {
+            backpack.open(player);
         }
 
         return true;

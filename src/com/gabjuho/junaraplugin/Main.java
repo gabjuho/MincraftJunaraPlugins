@@ -100,8 +100,10 @@ public class Main extends JavaPlugin {
         getCommand("iniDefense").setExecutor(statCommands);
         getCommand("iniAttackSpeed").setExecutor(statCommands);
         getCommand("iniMovementSpeed").setExecutor(statCommands);
+        getCommand("stat").setExecutor(statCommands);
         
         //가방 관련 커멘드
         getCommand("setBackpack").setExecutor(backpackCommand);
+        getCommand("backpack").setExecutor(backpackCommand);
     }
 }

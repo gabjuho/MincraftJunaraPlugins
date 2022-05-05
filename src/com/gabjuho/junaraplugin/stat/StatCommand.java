@@ -115,6 +115,10 @@ public class StatCommand implements CommandExecutor {
             return true;
         }
 
+        if (cmd.getName().equalsIgnoreCase("stat")){
+            Stat.open(player);
+        }
+
 
         return true;
     }
