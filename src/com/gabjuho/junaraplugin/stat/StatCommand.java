@@ -2,6 +2,7 @@ package com.gabjuho.junaraplugin.stat;
 
 import com.gabjuho.junaraplugin.DataManager;
 import com.gabjuho.junaraplugin.utils.Util;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -29,22 +30,36 @@ public class StatCommand implements CommandExecutor {
         Player player = (Player)sender;
 
         if (cmd.getName().equalsIgnoreCase("setStat")){
-            ItemStack item = new ItemStack(Material.valueOf(data.getConfig().getString("stat.item")));
-            ItemMeta meta = item.getItemMeta();
+            if(args.length == 1) {
+                Player argPlayer = Bukkit.getPlayerExact(args[0]);
+                if(argPlayer != null) {
+                    ItemStack item = new ItemStack(Material.valueOf(data.getConfig().getString("stat.item")));
+                    ItemMeta meta = item.getItemMeta();
 
-            if(meta != null) {
-                meta.setDisplayName(Util.format(data.getConfig().getString("stat.name")));
-                meta.setLore(Arrays.asList(Util.format(data.getConfig().getString("stat.description"))));
-                meta.setCustomModelData(data.getConfig().getInt("stat.custom-model-data"));
-                item.setItemMeta(meta);
+                    if (meta != null) {
+                        meta.setDisplayName(Util.format(data.getConfig().getString("stat.name")));
+                        meta.setLore(Arrays.asList(Util.format(data.getConfig().getString("stat.description"))));
+                        meta.setCustomModelData(data.getConfig().getInt("stat.custom-model-data"));
+                        item.setItemMeta(meta);
 
-                if(player.getInventory().contains(item))
-                    player.getInventory().remove(item);
-                player.getInventory().setItem(data.getConfig().getInt("stat.inventory-placing"), item);
-                sender.sendMessage("스텟창이 세팅되었습니다.");
+                        if (argPlayer.getInventory().contains(item))
+                            argPlayer.getInventory().remove(item);
+                        argPlayer.getInventory().setItem(data.getConfig().getInt("stat.inventory-placing"), item);
+
+                        sender.sendMessage("스텟창이 세팅되었습니다.");
+                        argPlayer.sendMessage(ChatColor.GREEN + player.getName() + "님에 의해 스텟창이 세팅되었습니다.");
+                    } else {
+                        sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
+                    }
+                }
+                else
+                {
+                    sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
+                }
             }
-            else {
-                sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
+            else
+            {
+                sender.sendMessage(ChatColor.RED + "명령어 형식: setstat <플레이어 이름>");
             }
             return true;
         }
