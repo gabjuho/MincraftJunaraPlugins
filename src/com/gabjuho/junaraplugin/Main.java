@@ -91,6 +91,7 @@ public class Main extends JavaPlugin {
 
         //Main 커멘드
         getCommand("tpWindow").setExecutor(mainCommands);
+        getCommand("setGUIAll").setExecutor(mainCommands);
 
         //스텟 관련 커멘드
         getCommand("setStat").setExecutor(statCommands);
