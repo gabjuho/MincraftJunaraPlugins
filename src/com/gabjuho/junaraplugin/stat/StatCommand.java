@@ -65,22 +65,30 @@ public class StatCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("setSP")){
-            if(args.length >= 1)
+            if(args.length == 2)
             {
                 try
                 {
-                    int statPoint = Integer.parseInt(args[0]);
-                    data.getDataConfig().set("stat." + player.getUniqueId() + ".스텟포인트",statPoint);
-                    data.saveDataConfig();
-                    player.sendMessage("스텟포인트가 " + statPoint + "만큼 세팅되었습니다.");
+                    Player argPlayer = Bukkit.getPlayerExact(args[0]);
+                    if(argPlayer != null) {
+                        int statPoint = Integer.parseInt(args[1]);
+                        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".스텟포인트", statPoint);
+                        data.saveDataConfig();
+                        sender.sendMessage(ChatColor.GREEN + argPlayer.getName() + "님에게 " + statPoint + "만큼 스텟포인트를 세팅하였습니다.");
+                        argPlayer.sendMessage(ChatColor.GREEN + player.getName() + "님에 의해 당신의 스텟포인트가 " + statPoint + "만큼 세팅되었습니다.");
+                    }
+                    else
+                    {
+                        sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
+                    }
                 }
                 catch (IllegalArgumentException e){
-                    player.sendMessage(ChatColor.DARK_RED + "[System]: 매개변수 값은 정수값을 입력해주세요!");
+                    sender.sendMessage(ChatColor.RED + "명령어 형식: setsp <플레이어 이름> <정수 sp값>");
                 }
             }
             else
             {
-                player.sendMessage(ChatColor.RED + "[System]: 매개변수를 적어주세요!");
+                sender.sendMessage(ChatColor.RED + "명령어 형식: setsp <플레이어 이름> <정수 sp값>");
             }
             return true;
         }
