@@ -90,7 +90,6 @@ public class Main extends JavaPlugin {
         BackpackCommand backpackCommand = new BackpackCommand();
 
         //Main 커멘드
-        getCommand("tpWindow").setExecutor(mainCommands);
         getCommand("setGUIAll").setExecutor(mainCommands);
 
         //스텟 관련 커멘드

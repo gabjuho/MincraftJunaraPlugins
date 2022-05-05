@@ -28,9 +28,6 @@ commands:
   iniMovementSpeed:
     description: 이동속도 초기화
     usage: /<command>
-  tpWindow:
-    description: tp윈도우창 띄우기
-    usage: /<command>
   stat:
     description: 스텟창 띄우기
     usage: /<command>
