@@ -12,11 +12,61 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Arrays;
 
 public class JunaraEvent implements Listener {
 
     static Backpack backpack = new Backpack();
     static FileConfiguration config = DataManager.getInstance().getConfig();
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) //플레이어 들어왔을 때 자동 gui 세팅
+    {
+        if(config.getBoolean("automatic-gui-setting"))
+        {
+            Player player = event.getPlayer();
+
+            ItemStack bItem = new ItemStack(Material.valueOf(config.getString("backpack.item")));
+            ItemStack sItem = new ItemStack(Material.valueOf(config.getString("stat.item")));
+            ItemMeta bMeta = bItem.getItemMeta();
+            ItemMeta sMeta = sItem.getItemMeta();
+
+            if(bMeta != null) {
+                bMeta.setDisplayName(Util.format(config.getString("backpack.name")));
+                bMeta.setLore(Arrays.asList(Util.format(config.getString("backpack.description"))));
+                bMeta.setCustomModelData(config.getInt("backpack.custom-model-data"));
+                bItem.setItemMeta(bMeta);
+            }
+            else{
+                player.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
+                return;
+            }
+
+
+            if(sMeta != null) {
+                sMeta.setDisplayName(Util.format(config.getString("stat.name")));
+                sMeta.setLore(Arrays.asList(Util.format(config.getString("stat.description"))));
+                sMeta.setCustomModelData(config.getInt("stat.custom-model-data"));
+                sItem.setItemMeta(sMeta);
+            }
+            else {
+                player.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
+                return;
+            }
+
+            if (player.getInventory().contains(bItem))
+                player.getInventory().remove(bItem);
+            if (player.getInventory().contains(sItem))
+                player.getInventory().remove(sItem);
+
+            player.getInventory().setItem(config.getInt("backpack.inventory-placing"), bItem);
+            player.getInventory().setItem(config.getInt("stat.inventory-placing"), sItem);
+        }
+    }
 
     @EventHandler
     public static void onInventoryClick(InventoryClickEvent event) //플레이어 인벤토리에서 GUI 클릭
