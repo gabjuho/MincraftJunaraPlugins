@@ -65,4 +65,6 @@ background:
 open-gui-in-player-inventory: true
 open-gui-by-using-command: true
 
+use-automatic-pick-up: true
+
 automatic-gui-setting: false

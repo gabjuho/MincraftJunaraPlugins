@@ -69,26 +69,25 @@ public class BackpackEvent implements Listener {
     @EventHandler
     public static void onGetItem(EntityPickupItemEvent event)
     {
-        Player player = (Player) event.getEntity();
-        ItemStack item = event.getItem().getItemStack();
-        Inventory inv = backpack.getBackpackHashMap().get(player.getUniqueId());
+        if(dataManager.getConfig().getBoolean("use-automatic-pick-up")) {
+            Player player = (Player) event.getEntity();
+            ItemStack item = event.getItem().getItemStack();
+            Inventory inv = backpack.getBackpackHashMap().get(player.getUniqueId());
 
-        if(inv != null)
-        {
-            event.setCancelled(true);
-            if(inv.firstEmpty() != -1) {
-                event.getItem().remove();
-                inv.addItem(item);
-                backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
-            }
+            if (inv != null) {
+                event.setCancelled(true);
+                if (inv.firstEmpty() != -1) {
+                    event.getItem().remove();
+                    inv.addItem(item);
+                    backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
+                }
 //            else
 //            {
 //                player.sendMessage(ChatColor.RED + "인벤토리가 꽉 찼습니다."); // 이 문구가 아이템 주을 때 마다 생성되서 task 이용해서 해볼 예정 (퀘스트 텍스트에도 영향을 끼칠 수 있으므로)
 //            }
-        }
-        else
-        {
-            player.sendMessage("인벤토리가 존재하지 않습니다.");
+            } else {
+                player.sendMessage("인벤토리가 존재하지 않습니다.");
+            }
         }
     }
 }
