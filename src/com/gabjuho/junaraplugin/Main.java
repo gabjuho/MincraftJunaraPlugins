@@ -95,12 +95,9 @@ public class Main extends JavaPlugin {
         //스텟 관련 커멘드
         getCommand("setStat").setExecutor(statCommands);
         getCommand("setSP").setExecutor(statCommands);
-        getCommand("iniAttack").setExecutor(statCommands);
-        getCommand("iniHealth").setExecutor(statCommands);
-        getCommand("iniDefense").setExecutor(statCommands);
-        getCommand("iniAttackSpeed").setExecutor(statCommands);
-        getCommand("iniMovementSpeed").setExecutor(statCommands);
         getCommand("stat").setExecutor(statCommands);
+        getCommand("iniStat").setExecutor(statCommands);
+        getCommand("iniStatAll").setExecutor(statCommands);
         
         //가방 관련 커멘드
         getCommand("setBackpack").setExecutor(backpackCommand);

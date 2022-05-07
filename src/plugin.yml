@@ -13,21 +13,6 @@ commands:
   setSP:
     description: 스텟포인트를 주는 커맨드
     usage: /<command>
-  iniAttack:
-    description: 공격력 초기화
-    usage: /<command>
-  iniHealth:
-    description: 체력 초기화
-    usage: /<command>
-  iniDefense:
-    description: 방어력 초기화
-    usage: /<command>
-  iniAttackSpeed:
-    description: 공격속도 초기화
-    usage: /<command>
-  iniMovementSpeed:
-    description: 이동속도 초기화
-    usage: /<command>
   stat:
     description: 스텟창 띄우기
     usage: /<command>
@@ -36,4 +21,10 @@ commands:
     usage: /<command>
   setGUIAll:
     description: 모든 온라인 플레이어에게 stat, backpack gui를 세팅해주는 커맨드
+    usage: /<command>
+  iniStat:
+    description: 스텟을 초기화 해주는 커맨드
+    usage: /<command>
+  iniStatAll:
+    description: 모든 온라인 유저들의 스텟을 초기화 해주는 커맨드
     usage: /<command>

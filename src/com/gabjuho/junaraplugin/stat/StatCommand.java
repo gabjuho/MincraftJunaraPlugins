@@ -22,8 +22,7 @@ public class StatCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-        if(!(sender instanceof Player))
-        {
+        if(!(sender instanceof Player)) {
             sender.sendMessage("오직 플레이어만 명령어를 사용할 수 있습니다.");
             return true;
         }
@@ -52,23 +51,19 @@ public class StatCommand implements CommandExecutor {
                         sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
                     }
                 }
-                else
-                {
+                else {
                     sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
                 }
             }
-            else
-            {
+            else {
                 sender.sendMessage(ChatColor.RED + "명령어 형식: setstat <플레이어 이름>");
             }
             return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("setSP")){
-            if(args.length == 2)
-            {
-                try
-                {
+            if(args.length == 2) {
+                try {
                     Player argPlayer = Bukkit.getPlayerExact(args[0]);
                     if(argPlayer != null) {
                         int statPoint = Integer.parseInt(args[1]);
@@ -86,55 +81,9 @@ public class StatCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "명령어 형식: setsp <플레이어 이름> <정수 sp값>");
                 }
             }
-            else
-            {
+            else {
                 sender.sendMessage(ChatColor.RED + "명령어 형식: setsp <플레이어 이름> <정수 sp값>");
             }
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("iniAttack")){
-            data.getDataConfig().set("stat." + player.getUniqueId() + ".공격력포인트",0);
-            data.saveDataConfig();
-            player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
-
-            player.sendMessage("[System]: 공격력 스텟과 능력이 초기화 되었습니다!");
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("iniHealth")){
-            data.getDataConfig().set("stat." + player.getUniqueId() + ".체력포인트",0);
-            data.saveDataConfig();
-            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
-
-            player.sendMessage("[System]: 체력 스텟과 능력이 초기화 되었습니다!");
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("iniDefense")){
-            data.getDataConfig().set("stat." + player.getUniqueId() + ".방어력포인트",0);
-            data.saveDataConfig();
-            player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
-
-            player.sendMessage("[System]: 방어력 스텟과 능력이 초기화 되었습니다!");
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("iniAttackSpeed")){
-            data.getDataConfig().set("stat." + player.getUniqueId() + ".공격속도포인트",0);
-            data.saveDataConfig();
-            player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
-
-            player.sendMessage("[System]: 공격속도 스텟과 능력이 초기화 되었습니다!");
-            return true;
-        }
-
-        if (cmd.getName().equalsIgnoreCase("iniMovementSpeed")){
-            data.getDataConfig().set("stat." + player.getUniqueId() + ".이동속도포인트",0);
-            data.saveDataConfig();
-            player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
-
-            player.sendMessage("[System]: 이동속도 스텟과 능력이 초기화 되었습니다!");
             return true;
         }
 
@@ -142,7 +91,65 @@ public class StatCommand implements CommandExecutor {
             Stat.open(player);
         }
 
+        if (cmd.getName().equalsIgnoreCase("iniStat")){
+            if(args.length == 1) {
+                Player argPlayer = Bukkit.getPlayerExact(args[0]);
+                if (argPlayer != null) {
+                    iniStat(argPlayer,player);
+                    sender.sendMessage(ChatColor.GREEN + argPlayer.getName() + "님의 스텟을 초기화하였습니다.");
+                }
+                else {
+                    sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
+                }
+            }
+            else {
+                sender.sendMessage(ChatColor.RED + "명령어 형식: inistat <플레이어 이름>");
+            }
+            return true;
+        }
 
+        if (cmd.getName().equalsIgnoreCase("iniStatAll")) {
+            if(args.length == 0) {
+                for (Player argPlayer : Bukkit.getServer().getOnlinePlayers())
+                    iniStat(argPlayer, player);
+                sender.sendMessage(ChatColor.GREEN + "모든 온라인 플레이어들의 스텟을 초기화하였습니다.");
+            }
+            else{
+                sender.sendMessage(ChatColor.RED + "명령어 형식: inistatall");
+            }
+        }
         return true;
+    }
+
+    private void iniStat(Player argPlayer, Player sender) // argPlayer는 초기화 대상, sender는 커맨드 사용자
+    {
+        int sp = 0;
+
+        sp += data.getDataConfig().getInt("stat." + argPlayer.getUniqueId() + ".공격력포인트");
+        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".공격력포인트", 0);
+        argPlayer.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+
+        sp += data.getDataConfig().getInt("stat." + argPlayer.getUniqueId() + ".체력포인트");
+        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".체력포인트", 0);
+        argPlayer.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
+
+        sp += data.getDataConfig().getInt("stat." + argPlayer.getUniqueId() + ".방어력포인트");
+        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".방어력포인트", 0);
+        argPlayer.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
+
+        sp += data.getDataConfig().getInt("stat." + argPlayer.getUniqueId() + ".공격속도포인트");
+        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".공격속도포인트", 0);
+        argPlayer.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+
+        sp += data.getDataConfig().getInt("stat." + argPlayer.getUniqueId() + ".이동속도포인트");
+        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".이동속도포인트", 0);
+        argPlayer.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
+
+        sp += data.getDataConfig().getInt("stat." + argPlayer.getUniqueId() + ".스텟포인트");
+
+        data.getDataConfig().set("stat." + argPlayer.getUniqueId() + ".스텟포인트", sp);
+
+        DataManager.getInstance().saveDataConfig();
+        argPlayer.sendMessage(ChatColor.GREEN + sender.getName() + "에 의해 당신의 스텟이 모두 초기화되었습니다.");
     }
 }
