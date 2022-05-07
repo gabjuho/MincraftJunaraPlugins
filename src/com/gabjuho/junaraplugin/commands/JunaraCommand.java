@@ -61,7 +61,7 @@ public class JunaraCommand implements CommandExecutor {
                         online.getInventory().remove(stat);
                     online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("stat.inventory-placing"), stat);
                 }
-                sender.sendMessage(ChatColor.GREEN + "스텟, 가방 gui가 모든 온라인 유저에게 세팅되었습니다.");
+                sender.sendMessage(ChatColor.GREEN + "스텟, 가방 gui가 모든 온라인 플레이어에게 세팅되었습니다.");
             }
             else{
                 sender.sendMessage(ChatColor.RED + "명령어 형식: /setguiall");
@@ -110,6 +110,46 @@ public class JunaraCommand implements CommandExecutor {
             }
             else{
                 sender.sendMessage(ChatColor.RED + "명령어 형식: /removegui <플레이어 이름>");
+            }
+            return true;
+        }
+        if (cmd.getName().equalsIgnoreCase("removeGUIAll")) {
+            if(args.length == 0) {
+                ItemStack stat = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("stat.item")));
+                ItemStack backpack = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
+                ItemMeta sMeta = stat.getItemMeta();
+                ItemMeta bMeta = backpack.getItemMeta();
+
+                if (sMeta != null) {
+                    sMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("stat.name")));
+                    sMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("stat.description"))));
+                    sMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("stat.custom-model-data"));
+                    stat.setItemMeta(sMeta);
+                } else {
+                    sender.sendMessage("삭제할 스텟 GUI의 아이템 정보를 가져올 수 없습니다. (config.yml 파일을 확인해주세요.)");
+                    return false;
+                }
+                if (bMeta != null) {
+                    bMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("backpack.name")));
+                    bMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("backpack.description"))));
+                    bMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
+                    backpack.setItemMeta(bMeta);
+                } else {
+                    sender.sendMessage("삭제할 가방 GUI의 아이템 정보를 가져올 수 없습니다. (config.yml 파일을 확인해주세요.)");
+                    return false;
+                }
+
+                for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+                    if (online.getInventory().contains(stat))
+                        online.getInventory().remove(stat);
+                    if (online.getInventory().contains(backpack))
+                        online.getInventory().remove(backpack);
+                    online.sendMessage(ChatColor.GREEN + sender.getName() + "님에 의해 당신의 GUI가 삭제되었습니다.");
+                }
+                sender.sendMessage(ChatColor.GREEN +"모든 온라인 플레이어의 GUI를 삭제했습니다.");
+            }
+            else{
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /removeguiall");
             }
         }
 

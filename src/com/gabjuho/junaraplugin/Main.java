@@ -92,6 +92,7 @@ public class Main extends JavaPlugin {
         //Main 커멘드
         getCommand("setGUIAll").setExecutor(mainCommands);
         getCommand("removeGUI").setExecutor(mainCommands);
+        getCommand("removeGUIAll").setExecutor(mainCommands);
 
         //스텟 관련 커멘드
         getCommand("setStat").setExecutor(statCommands);
