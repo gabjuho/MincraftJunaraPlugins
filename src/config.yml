@@ -69,9 +69,6 @@ init-button:
   stat-name: "스텟 초기화"
   description: "모든 스텟을 초기화합니다."
 
-open-gui-in-player-inventory: true
-open-gui-by-using-command: true
-
 use-automatic-pick-up: true
 
 automatic-gui-setting: false
