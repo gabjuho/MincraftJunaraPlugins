@@ -98,9 +98,11 @@ public class Main extends JavaPlugin {
         getCommand("stat").setExecutor(statCommands);
         getCommand("iniStat").setExecutor(statCommands);
         getCommand("iniStatAll").setExecutor(statCommands);
+        getCommand("setStatAll").setExecutor(statCommands);
         
         //가방 관련 커멘드
         getCommand("setBackpack").setExecutor(backpackCommand);
         getCommand("backpack").setExecutor(backpackCommand);
+        getCommand("setBackpackAll").setExecutor(backpackCommand);
     }
 }

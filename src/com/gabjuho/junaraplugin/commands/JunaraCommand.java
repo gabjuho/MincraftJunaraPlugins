@@ -26,42 +26,45 @@ public class JunaraCommand implements CommandExecutor {
         }
 
         if (cmd.getName().equalsIgnoreCase("setGUIAll")) {
-            ItemStack backpack = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
-            ItemStack stat = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("stat.item")));
-            ItemMeta bMeta = backpack.getItemMeta();
-            ItemMeta sMeta = stat.getItemMeta();
+            if(args.length == 0) {
+                ItemStack backpack = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
+                ItemStack stat = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("stat.item")));
+                ItemMeta bMeta = backpack.getItemMeta();
+                ItemMeta sMeta = stat.getItemMeta();
 
-            if(bMeta != null) {
-                bMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("backpack.name")));
-                bMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("backpack.description"))));
-                bMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
-                backpack.setItemMeta(bMeta);
+                if (bMeta != null) {
+                    bMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("backpack.name")));
+                    bMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("backpack.description"))));
+                    bMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
+                    backpack.setItemMeta(bMeta);
+                } else {
+                    sender.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
+                    return false;
+                }
+
+                if (sMeta != null) {
+                    sMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("stat.name")));
+                    sMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("stat.description"))));
+                    sMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("stat.custom-model-data"));
+                    stat.setItemMeta(sMeta);
+                } else {
+                    sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
+                    return false;
+                }
+
+                for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+                    if (online.getInventory().contains(backpack))
+                        online.getInventory().remove(backpack);
+                    online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("backpack.inventory-placing"), backpack);
+
+                    if (online.getInventory().contains(stat))
+                        online.getInventory().remove(stat);
+                    online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("stat.inventory-placing"), stat);
+                }
+                sender.sendMessage(ChatColor.GREEN + "스텟, 가방 gui가 모든 온라인 유저에게 세팅되었습니다.");
             }
             else{
-                sender.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
-            }
-
-            if(sMeta != null) {
-                sMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("stat.name")));
-                sMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("stat.description"))));
-                sMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("stat.custom-model-data"));
-                stat.setItemMeta(sMeta);
-            }
-            else {
-                sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
-            }
-
-            for(Player online: Bukkit.getServer().getOnlinePlayers())
-            {
-                if(online.getInventory().contains(backpack))
-                    online.getInventory().remove(backpack);
-                online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("backpack.inventory-placing"), backpack);
-
-                if(online.getInventory().contains(stat))
-                    online.getInventory().remove(stat);
-                online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("stat.inventory-placing"), stat);
-
-                sender.sendMessage(ChatColor.GREEN + "모든 gui창이 온라인 유저에게 세팅되었습니다.");
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /setguiall");
             }
         }
 

@@ -20,8 +20,7 @@ public class BackpackCommand implements CommandExecutor{
 
         Backpack backpack = new Backpack();
 
-        if(!(sender instanceof Player))
-        {
+        if(!(sender instanceof Player)) {
             sender.sendMessage("오직 플레이어만 명령어를 사용할 수 있습니다.");
             return true;
         }
@@ -49,21 +48,48 @@ public class BackpackCommand implements CommandExecutor{
                         sender.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
                     }
                 }
-                else
-                {
+                else {
                     sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
                 }
             }
-            else
-            {
-                sender.sendMessage(ChatColor.RED + "명령어 형식: setbackpack <플레이어 이름>");
+            else {
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /setbackpack <플레이어 이름>");
             }
+            return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("backpack")) {
-            backpack.open(player);
+            if(args.length == 0)
+                backpack.open(player);
+            else
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /backpack");
+            return true;
         }
 
+        if (cmd.getName().equalsIgnoreCase("setBackpackAll")) {
+            if (args.length == 0) {
+                ItemStack bItem = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
+                ItemMeta bMeta = bItem.getItemMeta();
+                if (bMeta != null) {
+                    bMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("backpack.name")));
+                    bMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("backpack.description"))));
+                    bMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
+                    bItem.setItemMeta(bMeta);
+                } else {
+                    sender.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
+                    return false;
+                }
+                for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+                    if (online.getInventory().contains(bItem))
+                        online.getInventory().remove(bItem);
+                    online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("backpack.inventory-placing"), bItem);
+                }
+                sender.sendMessage(ChatColor.GREEN + "가방 gui가 모든 온라인 유저에게 세팅되었습니다.");
+            }
+            else {
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /setbackpackall");
+            }
+        }
         return true;
     }
 }

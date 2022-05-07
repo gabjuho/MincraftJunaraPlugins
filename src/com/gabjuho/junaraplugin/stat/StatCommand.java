@@ -56,7 +56,7 @@ public class StatCommand implements CommandExecutor {
                 }
             }
             else {
-                sender.sendMessage(ChatColor.RED + "명령어 형식: setstat <플레이어 이름>");
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /setstat <플레이어 이름>");
             }
             return true;
         }
@@ -78,17 +78,21 @@ public class StatCommand implements CommandExecutor {
                     }
                 }
                 catch (IllegalArgumentException e){
-                    sender.sendMessage(ChatColor.RED + "명령어 형식: setsp <플레이어 이름> <정수 sp값>");
+                    sender.sendMessage(ChatColor.RED + "명령어 형식: /setsp <플레이어 이름> <정수 sp값>");
                 }
             }
             else {
-                sender.sendMessage(ChatColor.RED + "명령어 형식: setsp <플레이어 이름> <정수 sp값>");
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /setsp <플레이어 이름> <정수 sp값>");
             }
             return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("stat")){
-            Stat.open(player);
+            if(args.length == 0)
+                Stat.open(player);
+            else
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /stat");
+            return true;
         }
 
         if (cmd.getName().equalsIgnoreCase("iniStat")){
@@ -103,7 +107,7 @@ public class StatCommand implements CommandExecutor {
                 }
             }
             else {
-                sender.sendMessage(ChatColor.RED + "명령어 형식: inistat <플레이어 이름>");
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /inistat <플레이어 이름>");
             }
             return true;
         }
@@ -115,7 +119,31 @@ public class StatCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.GREEN + "모든 온라인 플레이어들의 스텟을 초기화하였습니다.");
             }
             else{
-                sender.sendMessage(ChatColor.RED + "명령어 형식: inistatall");
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /inistatall");
+            }
+        }
+        if (cmd.getName().equalsIgnoreCase("setStatAll")) {
+            if(args.length == 0) {
+                ItemStack stat = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("stat.item")));
+                ItemMeta sMeta = stat.getItemMeta();
+                if (sMeta != null) {
+                    sMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("stat.name")));
+                    sMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("stat.description"))));
+                    sMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("stat.custom-model-data"));
+                    stat.setItemMeta(sMeta);
+                } else {
+                    sender.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
+                    return false;
+                }
+                for (Player online : Bukkit.getServer().getOnlinePlayers()) {
+                    if (online.getInventory().contains(stat))
+                        online.getInventory().remove(stat);
+                    online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("stat.inventory-placing"), stat);
+                }
+                sender.sendMessage(ChatColor.GREEN + "스텟 gui가 모든 온라인 유저에게 세팅되었습니다.");
+            }
+            else{
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /setstatall");
             }
         }
         return true;
