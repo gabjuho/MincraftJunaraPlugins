@@ -16,6 +16,7 @@ public class Stat {
         StatData attackSpeed = new AttackSpeed();
         StatData movementSpeed = new MovementSpeed();
         StatData background = new BackGround();
+        StatData initButton = new InitButton();
 
         ItemStack backgroundGUI = background.makeStatGUI(player);
 
@@ -33,6 +34,7 @@ public class Stat {
         inv.setItem(defense.place, defense.makeStatGUI(player));
         inv.setItem(attackSpeed.place, attackSpeed.makeStatGUI(player));
         inv.setItem(movementSpeed.place, movementSpeed.makeStatGUI(player));
+        inv.setItem(initButton.place, initButton.makeStatGUI(player));
 
         player.openInventory(inv);
     }

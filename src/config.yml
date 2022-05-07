@@ -62,6 +62,13 @@ background:
   stat-item: GLASS_PANE
   stat-item-custommodeldata: 1
 
+init-button:
+  inventory-placing: 26
+  stat-item: BARRIER
+  stat-item-custommodeldata: 1
+  stat-name: "스텟 초기화"
+  description: "모든 스텟을 초기화합니다."
+
 open-gui-in-player-inventory: true
 open-gui-by-using-command: true
 

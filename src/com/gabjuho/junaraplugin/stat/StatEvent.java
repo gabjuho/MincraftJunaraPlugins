@@ -17,6 +17,7 @@ public class StatEvent implements Listener {
     private final static StatData defense = new Defense();
     private final static StatData attackSpeed = new AttackSpeed();
     private final static StatData movementSpeed = new MovementSpeed();
+    private final static StatData initButton = new InitButton();
 
     @EventHandler
     void onPlayerJoin(PlayerJoinEvent event)
@@ -69,6 +70,9 @@ public class StatEvent implements Listener {
                 }
                 else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(movementSpeed.name)) {
                     movementSpeed.clickStat(statPoint,player);
+                }
+                else if(event.getCurrentItem().getItemMeta().getDisplayName().equals(initButton.name)) {
+                    initButton.clickStat(statPoint,player);
                 }
             }
         }

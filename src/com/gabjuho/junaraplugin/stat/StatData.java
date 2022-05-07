@@ -1,6 +1,7 @@
 package com.gabjuho.junaraplugin.stat;
 
 import com.gabjuho.junaraplugin.DataManager;
+import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
@@ -26,12 +27,12 @@ abstract public class StatData {
 
     public void Init()
     {
-        item = Material.valueOf(section.getString("stat-item"));
-        customModelData = section.getInt("stat-item-custommodeldata");
-        maxLevel = section.getInt("max-level");
-        perValue = section.getDouble("value-per-stat");
-        name = section.getString("stat-name");
-        place = section.getInt("inventory-placing");
+        this.item = Material.valueOf(section.getString("stat-item"));
+        this.customModelData = section.getInt("stat-item-custommodeldata");
+        this.maxLevel = section.getInt("max-level");
+        this.perValue = section.getDouble("value-per-stat");
+        this.name = section.getString("stat-name");
+        this.place = section.getInt("inventory-placing");
     }
     public ItemStack makeStatGUI(Player player) {
         ItemStack itemStack = new ItemStack(this.item);
@@ -255,8 +256,8 @@ class BackGround extends StatData
         this.section = config.getConfigurationSection("background");
 
         if(this.section != null) {
-            item = Material.valueOf(section.getString("stat-item"));
-            customModelData = section.getInt("stat-item-custommodeldata");
+            this.item = Material.valueOf(section.getString("stat-item"));
+            this.customModelData = section.getInt("stat-item-custommodeldata");
         }
     }
     public ItemStack makeStatGUI(Player player)
@@ -283,5 +284,76 @@ class BackGround extends StatData
     }
     @Override
     public void clickStat(int statPoint, Player player) {}
+}
+
+class InitButton extends StatData
+{
+    private String description;
+    InitButton()
+    {
+        this.section = config.getConfigurationSection("init-button");
+
+        if(this.section != null) {
+            this.item = Material.valueOf(section.getString("stat-item"));
+            this.customModelData = section.getInt("stat-item-custommodeldata");
+            this.name = section.getString("stat-name");
+            this.place = section.getInt("inventory-placing");
+            this.description = section.getString("description");
+        }
+    }
+    public ItemStack makeStatGUI(Player player)
+    {
+        ItemStack itemStack = new ItemStack(item);
+
+        ItemMeta meta = itemStack.getItemMeta();
+        if(meta != null) {
+            meta.setCustomModelData(customModelData);
+            meta.setDisplayName(Util.format(name));
+            meta.setLore(makeLore(player));
+
+            itemStack.setItemMeta(meta);
+        }
+        else
+            return null;
+
+        return itemStack;
+    }
+    @Override
+    public List<String> makeLore(Player player)
+    {
+        List<String> lore = new ArrayList<>();
+        lore.add(Util.format(description));
+        return lore;
+    }
+    @Override
+    public void clickStat(int statPoint, Player player) {
+        int sp = 0;
+
+        sp += dataConfig.getInt("stat." + player.getUniqueId() + ".공격력포인트");
+        dataConfig.set("stat." + player.getUniqueId() + ".공격력포인트",0);
+        player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1);
+
+        sp+= dataConfig.getInt("stat." + player.getUniqueId() + ".체력포인트");
+        dataConfig.set("stat." + player.getUniqueId() + ".체력포인트",0);
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
+
+        sp+= dataConfig.getInt("stat." + player.getUniqueId() + ".방어력포인트");
+        dataConfig.set("stat." + player.getUniqueId() + ".방어력포인트",0);
+        player.getAttribute(Attribute.GENERIC_ARMOR).setBaseValue(0);
+
+        sp+= dataConfig.getInt("stat." + player.getUniqueId() + ".공격속도포인트");
+        dataConfig.set("stat." + player.getUniqueId() + ".공격속도포인트",0);
+        player.getAttribute(Attribute.GENERIC_ATTACK_SPEED).setBaseValue(4);
+
+        sp+= dataConfig.getInt("stat." + player.getUniqueId() + ".이동속도포인트");
+        dataConfig.set("stat." + player.getUniqueId() + ".이동속도포인트",0);
+        player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED).setBaseValue(0.1);
+
+        dataConfig.set("stat." + player.getUniqueId() + ".스텟포인트",sp+statPoint);
+
+        DataManager.getInstance().saveDataConfig();
+        Stat.open(player);
+        player.sendMessage(ChatColor.GREEN + "[System]: 스텟이 모두 초기화되었습니다.");
+    }
 }
 
