@@ -66,6 +66,51 @@ public class JunaraCommand implements CommandExecutor {
             else{
                 sender.sendMessage(ChatColor.RED + "명령어 형식: /setguiall");
             }
+            return true;
+        }
+        if (cmd.getName().equalsIgnoreCase("removeGUI")) {
+            if(args.length == 1) {
+                Player argPlayer = Bukkit.getPlayerExact(args[0]);
+                if(argPlayer != null) {
+                    ItemStack stat = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("stat.item")));
+                    ItemStack backpack = new ItemStack(Material.valueOf(DataManager.getInstance().getConfig().getString("backpack.item")));
+                    ItemMeta sMeta = stat.getItemMeta();
+                    ItemMeta bMeta = backpack.getItemMeta();
+
+                    if (sMeta != null) {
+                        sMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("stat.name")));
+                        sMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("stat.description"))));
+                        sMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("stat.custom-model-data"));
+                        stat.setItemMeta(sMeta);
+                    } else {
+                        sender.sendMessage("삭제할 스텟 GUI의 아이템 정보를 가져올 수 없습니다. (config.yml 파일을 확인해주세요.)");
+                        return false;
+                    }
+                    if (bMeta != null) {
+                        bMeta.setDisplayName(Util.format(DataManager.getInstance().getConfig().getString("backpack.name")));
+                        bMeta.setLore(Arrays.asList(Util.format(DataManager.getInstance().getConfig().getString("backpack.description"))));
+                        bMeta.setCustomModelData(DataManager.getInstance().getConfig().getInt("backpack.custom-model-data"));
+                        backpack.setItemMeta(bMeta);
+                    } else {
+                        sender.sendMessage("삭제할 가방 GUI의 아이템 정보를 가져올 수 없습니다. (config.yml 파일을 확인해주세요.)");
+                        return false;
+                    }
+
+                    if (argPlayer.getInventory().contains(stat))
+                        argPlayer.getInventory().remove(stat);
+                    if (argPlayer.getInventory().contains(backpack))
+                        argPlayer.getInventory().remove(backpack);
+
+                    sender.sendMessage(ChatColor.GREEN + argPlayer.getName() + "님의 GUI를 삭제했습니다.");
+                    argPlayer.sendMessage(ChatColor.GREEN + sender.getName() + "님에 의해 당신의 GUI가 삭제되었습니다.");
+                }
+                else{
+                    sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
+                }
+            }
+            else{
+                sender.sendMessage(ChatColor.RED + "명령어 형식: /removegui <플레이어 이름>");
+            }
         }
 
         return true;

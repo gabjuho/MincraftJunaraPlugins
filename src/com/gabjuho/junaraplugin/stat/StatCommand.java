@@ -72,8 +72,7 @@ public class StatCommand implements CommandExecutor {
                         sender.sendMessage(ChatColor.GREEN + argPlayer.getName() + "님에게 " + statPoint + "만큼 스텟포인트를 세팅하였습니다.");
                         argPlayer.sendMessage(ChatColor.GREEN + player.getName() + "님에 의해 당신의 스텟포인트가 " + statPoint + "만큼 세팅되었습니다.");
                     }
-                    else
-                    {
+                    else {
                         sender.sendMessage(ChatColor.RED + "해당 플레이어의 이름을 찾을 수 없습니다.");
                     }
                 }
@@ -140,7 +139,7 @@ public class StatCommand implements CommandExecutor {
                         online.getInventory().remove(stat);
                     online.getInventory().setItem(DataManager.getInstance().getConfig().getInt("stat.inventory-placing"), stat);
                 }
-                sender.sendMessage(ChatColor.GREEN + "스텟 gui가 모든 온라인 유저에게 세팅되었습니다.");
+                sender.sendMessage(ChatColor.GREEN + "스텟 GUI가 모든 온라인 유저에게 세팅되었습니다.");
             }
             else{
                 sender.sendMessage(ChatColor.RED + "명령어 형식: /setstatall");
