@@ -5,7 +5,13 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.io.BukkitObjectInputStream;
+import org.bukkit.util.io.BukkitObjectOutputStream;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -20,8 +26,19 @@ public class Backpack {
 
     public void saveItem(ConfigurationSection section,ItemStack itemStack)
     {
-        section.set("type",itemStack.getType().name());
-        section.set("amount",itemStack.getAmount());
+        try{
+
+            ByteArrayOutputStream io = new ByteArrayOutputStream();
+            BukkitObjectOutputStream os = new BukkitObjectOutputStream(io);
+            os.writeObject(itemStack);
+            os.flush();
+            byte[] serializeObject = io.toByteArray();
+
+            String encodedObject = Base64.getEncoder().encodeToString(serializeObject);
+            section.set("item",encodedObject);
+        }catch(IOException e) {
+            System.out.println(e);
+        }
     }
 
     public HashMap<UUID,Inventory> getBackpackHashMap()
@@ -31,6 +48,22 @@ public class Backpack {
 
     public ItemStack loadItem(ConfigurationSection section)
     {
-        return new ItemStack(Material.valueOf(section.getString("type")),section.getInt("amount"));
+        byte[] serializeObject = Base64.getDecoder().decode(section.getString("item"));
+
+        try {
+            ByteArrayInputStream in = new ByteArrayInputStream(serializeObject);
+            BukkitObjectInputStream is = new BukkitObjectInputStream(in);
+
+            try {
+                return (ItemStack) is.readObject();
+            }catch(ClassNotFoundException e)
+            {
+                System.out.println(e);
+            }
+        }catch (IOException e)
+        {
+            System.out.println(e);
+        }
+        return null;
     }
 }
