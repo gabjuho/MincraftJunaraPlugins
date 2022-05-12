@@ -76,15 +76,14 @@ public class JunaraEvent implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         if (event.getCurrentItem() != null) {
-            if (event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(Util.format(config.getString("stat.name")))) // **이름 변경하다보면 겹칠 수 있음
-            {
+            if (event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(Util.format(config.getString("stat.name")))){ // **이름 변경하다보면 겹칠 수 있음
                 event.setCancelled(true);
                 if (player.getGameMode() == GameMode.SURVIVAL) {
                     if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
                         Bukkit.getScheduler().runTask(Main.getPlugin(Main.class), () -> Stat.open(player));
                 } else {
-                    event.setCurrentItem(null); //이부분에 관련하여 오늘해야됨
-                    player.sendMessage(ChatColor.RED + "[System]: GUI창은 서바이벌 상태에서만 클릭해주세요. (gui창이 복제됩니다.)");
+                    event.setCancelled(false);
+                    player.sendMessage(ChatColor.RED + "[System]: GUI는 서바이벌 상태에서만 클릭해주세요.");
                 }
             } else if (event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(Util.format(config.getString("backpack.name")))) {
                 event.setCancelled(true);
@@ -92,7 +91,8 @@ public class JunaraEvent implements Listener {
                     if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
                         Bukkit.getScheduler().runTask(Main.getPlugin(Main.class), () -> backpack.open(player));
                 } else {
-                    player.sendMessage(ChatColor.RED + "[System]: GUI창은 서바이벌 상태에서만 클릭해주세요. (gui창이 복제됩니다.)");
+                    event.setCancelled(false);
+                    player.sendMessage(ChatColor.RED + "[System]: GUI는 서바이벌 상태에서만 클릭해주세요.");
                 }
             }
         }
