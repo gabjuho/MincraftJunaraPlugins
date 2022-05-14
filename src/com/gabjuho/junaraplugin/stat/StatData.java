@@ -267,7 +267,7 @@ class BackGround extends StatData
         ItemMeta meta = itemStack.getItemMeta();
         if(meta != null) {
             meta.setCustomModelData(customModelData);
-            meta.setDisplayName("");
+            meta.setDisplayName(" ");
             itemStack.setItemMeta(meta);
         }
         else

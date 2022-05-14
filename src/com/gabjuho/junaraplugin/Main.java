@@ -90,21 +90,18 @@ public class Main extends JavaPlugin {
         BackpackCommand backpackCommand = new BackpackCommand();
 
         //Main 커멘드
+        getCommand("setGUI").setExecutor(mainCommands);
         getCommand("setGUIAll").setExecutor(mainCommands);
         getCommand("removeGUI").setExecutor(mainCommands);
         getCommand("removeGUIAll").setExecutor(mainCommands);
 
         //스텟 관련 커멘드
-        getCommand("setStat").setExecutor(statCommands);
         getCommand("setSP").setExecutor(statCommands);
         getCommand("stat").setExecutor(statCommands);
         getCommand("iniStat").setExecutor(statCommands);
         getCommand("iniStatAll").setExecutor(statCommands);
-        getCommand("setStatAll").setExecutor(statCommands);
         
         //가방 관련 커멘드
-        getCommand("setBackpack").setExecutor(backpackCommand);
         getCommand("backpack").setExecutor(backpackCommand);
-        getCommand("setBackpackAll").setExecutor(backpackCommand);
     }
 }
