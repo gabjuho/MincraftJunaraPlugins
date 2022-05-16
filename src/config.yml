@@ -71,7 +71,9 @@ init-button:
 
 use-automatic-pick-up: true
 
-automatic-gui-setting: false
+automatic-gui-setting:
+  stat: true
+  backpack: true
 
 set-gui-setting:
   stat: true

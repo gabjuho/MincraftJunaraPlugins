@@ -25,29 +25,28 @@ public class JunaraEvent implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) //플레이어 들어왔을 때 자동 gui 세팅
     {
-        if(config.getBoolean("automatic-gui-setting"))
-        {
-            Player player = event.getPlayer();
+        Player player = event.getPlayer();
 
-            ItemStack stat, backpack, background;
-            stat = Util.makeItem(config.getString("stat.name"), config.getString("stat.item"), config.getInt("stat.custom-model-data"), config.getString("stat.description"));
-            backpack = Util.makeItem(config.getString("backpack.name"), config.getString("backpack.item"),config.getInt("backpack.custom-model-data"), config.getString("backpack.description")); //makeItem에서 meta를 못받아올 때 예외 처리하기
-            background = Util.makeItem(" ",config.getString("prohibit-item.item"),config.getInt("prohibit-item.custom-model-data"));
+        ItemStack stat, backpack, background;
+        stat = Util.makeItem(config.getString("stat.name"), config.getString("stat.item"), config.getInt("stat.custom-model-data"), config.getString("stat.description"));
+        backpack = Util.makeItem(config.getString("backpack.name"), config.getString("backpack.item"), config.getInt("backpack.custom-model-data"), config.getString("backpack.description")); //makeItem에서 meta를 못받아올 때 예외 처리하기
+        background = Util.makeItem(" ", config.getString("prohibit-item.item"), config.getInt("prohibit-item.custom-model-data"));
 
-            if (player.getInventory().contains(stat))
-                player.getInventory().remove(stat);
-            if (player.getInventory().contains(backpack))
-                player.getInventory().remove(backpack);
-            if (player.getInventory().contains(background))
-                player.getInventory().remove(background);
+        if (player.getInventory().contains(stat))
+            player.getInventory().remove(stat);
+        if (player.getInventory().contains(backpack))
+            player.getInventory().remove(backpack);
+        if (player.getInventory().contains(background))
+            player.getInventory().remove(background);
 
-            if(config.getBoolean("prohibit-inv")) {
-                for(int i=9;i<=35;i++)
-                    player.getInventory().setItem(i, background);
-            }
-            player.getInventory().setItem(config.getInt("stat.inventory-placing"), stat);
-            player.getInventory().setItem(config.getInt("backpack.inventory-placing"), backpack);
+        if (config.getBoolean("prohibit-inv")) {
+            for (int i = 9; i <= 35; i++)
+                player.getInventory().setItem(i, background);
         }
+        if(config.getBoolean("automatic-gui-setting.stat"))
+            player.getInventory().setItem(config.getInt("stat.inventory-placing"), stat);
+        if(config.getBoolean("automatic-gui-setting.backpack"))
+            player.getInventory().setItem(config.getInt("backpack.inventory-placing"), backpack);
     }
 
     @EventHandler
