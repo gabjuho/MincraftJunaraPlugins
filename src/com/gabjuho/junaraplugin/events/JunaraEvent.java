@@ -16,9 +16,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import java.util.Arrays;
 
 public class JunaraEvent implements Listener {
 
@@ -32,41 +29,24 @@ public class JunaraEvent implements Listener {
         {
             Player player = event.getPlayer();
 
-            ItemStack bItem = new ItemStack(Material.valueOf(config.getString("backpack.item")));
-            ItemStack sItem = new ItemStack(Material.valueOf(config.getString("stat.item")));
-            ItemMeta bMeta = bItem.getItemMeta();
-            ItemMeta sMeta = sItem.getItemMeta();
+            ItemStack stat, backpack, background;
+            stat = Util.makeItem(config.getString("stat.name"), config.getString("stat.item"), config.getInt("stat.custom-model-data"), config.getString("stat.description"));
+            backpack = Util.makeItem(config.getString("backpack.name"), config.getString("backpack.item"),config.getInt("backpack.custom-model-data"), config.getString("backpack.description")); //makeItem에서 meta를 못받아올 때 예외 처리하기
+            background = Util.makeItem(" ",config.getString("prohibit-item.item"),config.getInt("prohibit-item.custom-model-data"));
 
-            if(bMeta != null) {
-                bMeta.setDisplayName(Util.format(config.getString("backpack.name")));
-                bMeta.setLore(Arrays.asList(Util.format(config.getString("backpack.description"))));
-                bMeta.setCustomModelData(config.getInt("backpack.custom-model-data"));
-                bItem.setItemMeta(bMeta);
+            if (player.getInventory().contains(stat))
+                player.getInventory().remove(stat);
+            if (player.getInventory().contains(backpack))
+                player.getInventory().remove(backpack);
+            if (player.getInventory().contains(background))
+                player.getInventory().remove(background);
+
+            if(config.getBoolean("prohibit-inv")) {
+                for(int i=9;i<=35;i++)
+                    player.getInventory().setItem(i, background);
             }
-            else{
-                player.sendMessage("가방 GUI의 아이템 정보를 가져올 수 없습니다.");
-                return;
-            }
-
-
-            if(sMeta != null) {
-                sMeta.setDisplayName(Util.format(config.getString("stat.name")));
-                sMeta.setLore(Arrays.asList(Util.format(config.getString("stat.description"))));
-                sMeta.setCustomModelData(config.getInt("stat.custom-model-data"));
-                sItem.setItemMeta(sMeta);
-            }
-            else {
-                player.sendMessage("스텟 GUI의 아이템 정보를 가져올 수 없습니다.");
-                return;
-            }
-
-            if (player.getInventory().contains(bItem))
-                player.getInventory().remove(bItem);
-            if (player.getInventory().contains(sItem))
-                player.getInventory().remove(sItem);
-
-            player.getInventory().setItem(config.getInt("backpack.inventory-placing"), bItem);
-            player.getInventory().setItem(config.getInt("stat.inventory-placing"), sItem);
+            player.getInventory().setItem(config.getInt("stat.inventory-placing"), stat);
+            player.getInventory().setItem(config.getInt("backpack.inventory-placing"), backpack);
         }
     }
 
@@ -91,6 +71,12 @@ public class JunaraEvent implements Listener {
                     if (event.getCursor() == null || event.getCursor().getType() == Material.AIR)
                         Bukkit.getScheduler().runTask(Main.getPlugin(Main.class), () -> backpack.open(player));
                 } else {
+                    event.setCancelled(false);
+                    player.sendMessage(ChatColor.RED + "[System]: GUI는 서바이벌 상태에서만 클릭해주세요.");
+                }
+            }else if(event.getCurrentItem().hasItemMeta() && event.getCurrentItem().getItemMeta().getDisplayName().equals(" ") && DataManager.getInstance().getConfig().getBoolean("prohibit-inv")){
+                event.setCancelled(true);
+                if(player.getGameMode() == GameMode.CREATIVE) {
                     event.setCancelled(false);
                     player.sendMessage(ChatColor.RED + "[System]: GUI는 서바이벌 상태에서만 클릭해주세요.");
                 }

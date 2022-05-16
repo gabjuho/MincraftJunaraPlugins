@@ -76,3 +76,9 @@ automatic-gui-setting: false
 set-gui-setting:
   stat: true
   backpack: false
+
+prohibit-inv: true
+
+prohibit-item:
+  item: GRAY_STAINED_GLASS_PANE
+  custom-model-data: 1

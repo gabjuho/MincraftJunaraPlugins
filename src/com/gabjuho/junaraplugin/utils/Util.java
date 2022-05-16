@@ -34,4 +34,21 @@ public class Util {
 
         return item;
     }
+    public static ItemStack makeItem(String name, String material, int customModelData)
+    {
+        if(material == null)
+            return null;
+
+        ItemStack item = new ItemStack(Material.valueOf(material));
+        ItemMeta meta = item.getItemMeta();
+
+        if(meta == null)
+            return null;
+
+        meta.setCustomModelData(customModelData);
+        meta.setDisplayName(format(name));
+        item.setItemMeta(meta);
+
+        return item;
+    }
 }
