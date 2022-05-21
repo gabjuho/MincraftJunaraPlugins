@@ -89,7 +89,7 @@ public class BackpackEvent implements Listener {
 
         if (inv.firstEmpty() == -1) {
             for (ItemStack invItem : inv.getContents()) {
-                if (invItem != null)
+                if (invItem == null)
                     continue;
                 if (invItem.getType() != item.getType() && invItem.getAmount() >= invItem.getMaxStackSize() && !(invItem.getItemMeta().equals(item.getItemMeta())))
                     continue;
