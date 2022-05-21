@@ -2,11 +2,12 @@ package com.gabjuho.junaraplugin.backpack;
 
 import com.gabjuho.junaraplugin.DataManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -67,27 +68,65 @@ public class BackpackEvent implements Listener {
     }
 
     @EventHandler
-    public static void onGetItem(EntityPickupItemEvent event)
+    public void onAttemptPickUp(PlayerAttemptPickupItemEvent event)
     {
-        if(dataManager.getConfig().getBoolean("use-automatic-pick-up")) {
-            Player player = (Player) event.getEntity();
-            ItemStack item = event.getItem().getItemStack();
-            Inventory inv = backpack.getBackpackHashMap().get(player.getUniqueId());
+        if (!dataManager.getConfig().getBoolean("use-automatic-pick-up"))
+            return;
 
-            if (inv != null) {
-                event.setCancelled(true);
-                if (inv.firstEmpty() != -1) {
-                    event.getItem().remove();
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem().getItemStack(); //먹은 아이템
+        ItemStack temp; //먹은 아이템 복사할 임시 저장소
+        Inventory inv = backpack.getBackpackHashMap().get(player.getUniqueId());
+
+        if (inv == null) {
+            player.sendMessage("인벤토리가 존재하지 않습니다.");
+            return;
+        }
+
+
+        event.setCancelled(true);
+        event.getItem().remove();
+
+        if (inv.firstEmpty() == -1) {
+            for (ItemStack invItem : inv.getContents()) {
+                if (invItem != null)
+                    continue;
+                if (invItem.getType() != item.getType() && invItem.getAmount() >= invItem.getMaxStackSize() && !(invItem.getItemMeta().equals(item.getItemMeta())))
+                    continue;
+                int canStore = invItem.getMaxStackSize() - invItem.getAmount(); // canStore은 최대 아이템을 먹을 수 있는 개수
+                temp = item.clone();
+                temp.setAmount(canStore);
+                if (item.getAmount() > canStore) {//먹을 수 있는 개수가 먹은 아이템 개수 보다 적을 때
+                    inv.addItem(temp);
+                    item.setAmount(item.getAmount() - canStore);
+                } else {
                     inv.addItem(item);
-                    backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
+                    item.setAmount(0);
+                    break;
                 }
-//            else
-//            {
-//                player.sendMessage(ChatColor.RED + "인벤토리가 꽉 찼습니다."); // 이 문구가 아이템 주을 때 마다 생성되서 task 이용해서 해볼 예정 (퀘스트 텍스트에도 영향을 끼칠 수 있으므로)
-//            }
-            } else {
-                player.sendMessage("인벤토리가 존재하지 않습니다.");
             }
+            if (item.getAmount() > 0)
+                player.getWorld().dropItem(player.getLocation().add(0, 1, 0), item);
+        } else
+            inv.addItem(item);
+
+        backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
+    }
+
+    @EventHandler
+    public void onCloseInventory(InventoryCloseEvent event)
+    {
+        Player player = (Player) event.getPlayer();
+        ItemStack item = player.getItemOnCursor();
+
+        if(event.getView().getTitle().equals("가방")) {
+            if(item.getType() == Material.AIR)
+                return;
+            player.setItemOnCursor(null);
+            if(backpack.getBackpackHashMap().get(player.getUniqueId()).firstEmpty() != -1)
+                backpack.getBackpackHashMap().get(player.getUniqueId()).addItem(item);
+            else //자꾸 오류 뜸 105번째 줄 조건식에 문제가 있나 아니면 아래 getLocation add에 문제가 잇나 cannot drop air라네요. -> 해결
+                player.getWorld().dropItem(player.getLocation().add(0,1,0),item);
         }
     }
 }
