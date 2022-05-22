@@ -3,26 +3,28 @@
 #이미 변경 하셨을 때에 대한 해결책은 전에 세팅되어있던 아이템 자리에 inventory-placing 값을 변경해주고 리로드한 후 setbackpack 명령어를 입력해주세요.
 
 stat:
+  inventory-title: "스텟"
   inventory-size: 27
   inventory-placing: 9
   item: GLASS_PANE
   custom-model-data: 2000
-  name: "Stat"
-  description: "Upgrade your ability"
+  name: "스텟"
+  description: "당신의 능력치를 향상시킬 수 있습니다."
 
 backpack:
+  inventory-title: "가방"
   inventory-size: 27
   inventory-placing: 10
   item: BUNDLE
   custom-model-data: 2000
-  name: "Backpack"
-  description: "Open your backpack"
+  name: "가방"
+  description: "가방을 열 수 있습니다."
 
 attack-damage:
   inventory-placing: 1
   stat-item: DIAMOND_SWORD
   stat-item-custommodeldata: 1
-  stat-name: "Attack Damage"
+  stat-name: "공격력"
   max-level: 10
   value-per-stat: 0.1
 
@@ -30,7 +32,7 @@ max-health:
   inventory-placing: 4
   stat-item: TOTEM_OF_UNDYING
   stat-item-custommodeldata: 1
-  stat-name: "Health"
+  stat-name: "체력"
   max-level: 5
   value-per-stat: 0.3
 
@@ -38,7 +40,7 @@ defense:
   inventory-placing: 7
   stat-item: DIAMOND_CHESTPLATE
   stat-item-custommodeldata: 1
-  stat-name: "Defense"
+  stat-name: "방어력"
   max-level: 5
   value-per-stat: 0.05
 
@@ -46,7 +48,7 @@ attack-speed:
   inventory-placing: 21
   stat-item: FEATHER
   stat-item-custommodeldata: 1
-  stat-name: "Attack Speed"
+  stat-name: "공격속도"
   max-level: 5
   value-per-stat: 0.1
 
@@ -54,7 +56,7 @@ movement-speed:
   inventory-placing: 23
   stat-item: GOLDEN_BOOTS
   stat-item-custommodeldata: 1
-  stat-name: "Movement speed"
+  stat-name: "이동속도"
   max-level: 3
   value-per-stat: 0.1
 

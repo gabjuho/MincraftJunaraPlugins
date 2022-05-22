@@ -1,6 +1,7 @@
 package com.gabjuho.junaraplugin.stat;
 
 import com.gabjuho.junaraplugin.DataManager;
+import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -22,7 +23,7 @@ public class Stat {
 
         int size = DataManager.getInstance().getConfig().getInt("stat.inventory-size");
 
-        Inventory inv = Bukkit.createInventory(null, size, "스텟"); //사이즈 관련 문제
+        Inventory inv = Bukkit.createInventory(null, size, Util.format(DataManager.getInstance().getConfig().getString("stat.inventory-title"))); //사이즈 관련 문제
 
         for(int i=0; i<size ; i++)
         {

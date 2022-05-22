@@ -1,6 +1,7 @@
 package com.gabjuho.junaraplugin.backpack;
 
 import com.gabjuho.junaraplugin.DataManager;
+import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +25,7 @@ public class BackpackEvent implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
         Player player = event.getPlayer();
-        Inventory inv = Bukkit.createInventory(null, dataManager.getConfig().getInt("backpack.inventory-size"),"가방"); // owner를 player에서 null로 변경
+        Inventory inv = Bukkit.createInventory(null, dataManager.getConfig().getInt("backpack.inventory-size"), Util.format(dataManager.getConfig().getString("backpack.inventory-title"))); // owner를 player에서 null로 변경
 
         if(dataManager.getDataConfig().contains("backpacks."+player.getUniqueId()))
         {
