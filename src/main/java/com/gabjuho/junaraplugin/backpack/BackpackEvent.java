@@ -3,6 +3,7 @@ package com.gabjuho.junaraplugin.backpack;
 import com.gabjuho.junaraplugin.DataManager;
 import com.gabjuho.junaraplugin.utils.Util;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -75,15 +76,15 @@ public class BackpackEvent implements Listener {
             return;
 
         Player player = event.getPlayer();
-        ItemStack item = event.getItem().getItemStack(); //먹은 아이템
-        ItemStack temp; //먹은 아이템 복사할 임시 저장소
+        ItemStack item = event.getItem().getItemStack().clone(); //먹은 아이템
+        ItemStack temp = null; //먹은 아이템 복사할 임시 저장소
         Inventory inv = backpack.getBackpackHashMap().get(player.getUniqueId());
+        int itemAmount = 0;
 
         if (inv == null) {
             player.sendMessage("인벤토리가 존재하지 않습니다.");
             return;
         }
-
 
         event.setCancelled(true);
         event.getItem().remove();
@@ -92,7 +93,7 @@ public class BackpackEvent implements Listener {
             for (ItemStack invItem : inv.getContents()) {
                 if (invItem == null)
                     continue;
-                if (invItem.getType() != item.getType() && invItem.getAmount() >= invItem.getMaxStackSize() && !(invItem.getItemMeta().equals(item.getItemMeta())))
+                if (invItem.getType() != item.getType() || invItem.getAmount() >= invItem.getMaxStackSize() || !(invItem.getItemMeta().equals(item.getItemMeta())))
                     continue;
                 int canStore = invItem.getMaxStackSize() - invItem.getAmount(); // canStore은 최대 아이템을 먹을 수 있는 개수
                 temp = item.clone();
@@ -100,16 +101,33 @@ public class BackpackEvent implements Listener {
                 if (item.getAmount() > canStore) {//먹을 수 있는 개수가 먹은 아이템 개수 보다 적을 때
                     inv.addItem(temp);
                     item.setAmount(item.getAmount() - canStore);
+                    itemAmount += canStore;
                 } else {
+                    itemAmount += item.getAmount();
                     inv.addItem(item);
                     item.setAmount(0);
                     break;
                 }
             }
-            if (item.getAmount() > 0)
+            if(dataManager.getConfig().getBoolean("item-pickup-message")) {
+                if (!event.getItem().getItemStack().hasItemMeta() && itemAmount > 0)
+                    player.sendMessage(ChatColor.DARK_GRAY + "" + temp.getType() + "를 " + itemAmount + "개 획득하셨습니다.");
+                else if (event.getItem().getItemStack().hasItemMeta() && itemAmount > 0)
+                    player.sendMessage(ChatColor.DARK_GRAY + "" + temp.getItemMeta().getDisplayName() + "를 " + itemAmount + "개 획득하셨습니다.");
+            }
+
+            if (item.getAmount() > 0) {
                 player.getWorld().dropItem(player.getLocation().add(0, 1, 0), item);
-        } else
+            }
+        } else {
             inv.addItem(item);
+            if(dataManager.getConfig().getBoolean("item-pickup-message")) {
+                if (!event.getItem().getItemStack().hasItemMeta() && item.getAmount() > 0)
+                    player.sendMessage(ChatColor.DARK_GRAY + "" + item.getType() + "를 " + item.getAmount() + "개 획득하셨습니다.");
+                else if (event.getItem().getItemStack().hasItemMeta() && item.getAmount() > 0)
+                    player.sendMessage(ChatColor.DARK_GRAY + "" + item.getItemMeta().getDisplayName() + "를 " + item.getAmount() + "개 획득하셨습니다.");
+            }
+        }
 
         backpack.getBackpackHashMap().put(player.getUniqueId(), inv);
     }

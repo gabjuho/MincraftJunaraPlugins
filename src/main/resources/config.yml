@@ -86,3 +86,5 @@ prohibit-inv: true
 prohibit-item:
   item: GRAY_STAINED_GLASS_PANE
   custom-model-data: 1
+
+item-pickup-message: true
