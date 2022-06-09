@@ -94,6 +94,8 @@ public class Main extends JavaPlugin {
         getCommand("setGUIAll").setExecutor(mainCommands);
         getCommand("removeGUI").setExecutor(mainCommands);
         getCommand("removeGUIAll").setExecutor(mainCommands);
+        getCommand("invclear").setExecutor(mainCommands);
+        getCommand("invclearall").setExecutor(mainCommands);
 
         //스텟 관련 커멘드
         getCommand("setSP").setExecutor(statCommands);
@@ -103,5 +105,7 @@ public class Main extends JavaPlugin {
         
         //가방 관련 커멘드
         getCommand("backpack").setExecutor(backpackCommand);
+        getCommand("backpackclear").setExecutor(backpackCommand);
+        getCommand("backpackclearall").setExecutor(backpackCommand);
     }
 }
