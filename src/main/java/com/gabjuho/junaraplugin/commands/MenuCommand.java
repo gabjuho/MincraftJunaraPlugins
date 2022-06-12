@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class JunaraCommand implements CommandExecutor {
+public class MenuCommand implements CommandExecutor {
 
     FileConfiguration config = DataManager.getInstance().getConfig();
 

@@ -17,7 +17,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class JunaraEvent implements Listener {
+public class MenuEvent implements Listener {
 
     static Backpack backpack = new Backpack();
     static FileConfiguration config = DataManager.getInstance().getConfig();

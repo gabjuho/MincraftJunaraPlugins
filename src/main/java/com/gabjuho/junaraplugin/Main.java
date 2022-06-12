@@ -2,8 +2,8 @@ package com.gabjuho.junaraplugin;
 
 import com.gabjuho.junaraplugin.backpack.BackpackCommand;
 import com.gabjuho.junaraplugin.backpack.BackpackEvent;
-import com.gabjuho.junaraplugin.commands.JunaraCommand;
-import com.gabjuho.junaraplugin.events.JunaraEvent;
+import com.gabjuho.junaraplugin.commands.MenuCommand;
+import com.gabjuho.junaraplugin.events.MenuEvent;
 import com.gabjuho.junaraplugin.backpack.Backpack;
 import com.gabjuho.junaraplugin.stat.StatCommand;
 import com.gabjuho.junaraplugin.stat.StatEvent;
@@ -78,24 +78,24 @@ public class Main extends JavaPlugin {
 
     void registerEvent()
     {
-        getServer().getPluginManager().registerEvents(new JunaraEvent(),this);
+        getServer().getPluginManager().registerEvents(new MenuEvent(),this);
         getServer().getPluginManager().registerEvents(new StatEvent(),this);
         getServer().getPluginManager().registerEvents(new BackpackEvent(),this);
     }
 
     void registerCommand() //추가할 커맨드
     {
-        JunaraCommand mainCommands = new JunaraCommand();
+        MenuCommand menuCommands = new MenuCommand();
         StatCommand statCommands = new StatCommand();
         BackpackCommand backpackCommand = new BackpackCommand();
 
         //Main 커멘드
-        getCommand("setGUI").setExecutor(mainCommands);
-        getCommand("setGUIAll").setExecutor(mainCommands);
-        getCommand("removeGUI").setExecutor(mainCommands);
-        getCommand("removeGUIAll").setExecutor(mainCommands);
-        getCommand("invclear").setExecutor(mainCommands);
-        getCommand("invclearall").setExecutor(mainCommands);
+        getCommand("setGUI").setExecutor(menuCommands);
+        getCommand("setGUIAll").setExecutor(menuCommands);
+        getCommand("removeGUI").setExecutor(menuCommands);
+        getCommand("removeGUIAll").setExecutor(menuCommands);
+        getCommand("invclear").setExecutor(menuCommands);
+        getCommand("invclearall").setExecutor(menuCommands);
 
         //스텟 관련 커멘드
         getCommand("setSP").setExecutor(statCommands);
