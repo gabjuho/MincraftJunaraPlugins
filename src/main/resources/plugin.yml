@@ -7,6 +7,7 @@ commands:
   setSP:
     description: 스텟포인트를 주는 커맨드
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
   stat:
     description: 스텟창 띄우기
     usage: /<command>
@@ -15,34 +16,44 @@ commands:
     usage: /<command>
   setGUI:
     description: 특정 플레이어에게 stat 혹은 backpack gui를 세팅해주는 커맨드
+    permission: SuperDuperPlugin.Admin
   setGUIAll:
     description: 모든 온라인 플레이어에게 stat 혹은 backpack gui를 세팅해주는 커맨드
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
   iniStat:
     description: 스텟을 초기화 해주는 커맨드
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
   iniStatAll:
     description: 모든 온라인 플레이어들의 스텟을 초기화 해주는 커맨드
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
   removeGUI:
     description: 셋팅된 GUI를 삭제해주는 커맨드
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
   removeGUIAll:
     description: 모든 온라인 플레이어에 셋팅된 GUI를 삭제해주는 커맨드
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
   backpackclear:
     description: 가방의 특정 슬롯 혹은 모든 슬롯의 아이템을 제거해준다.
     usage: /<command>
+    permission: SuperDuperPlugin.Admin
     aliases: bclear
   invclear:
     description: 플레이어의 일반 인벤토리의 특정 슬롯 혹은 모든 슬롯의 아이템을 제거해준다.
+    permission: SuperDuperPlugin.Admin
     aliases: iclear
   backpackclearall:
     description: 모든 온라인 플레이어의 가방의 특정 슬롯 혹은 모든 슬롯의 아이템을 제거해준다.
+    permission: SuperDuperPlugin.Admin
     usage: /<command>
     aliases: bclearall
   invclearall:
     description: 모든 온라인 플레이어의 일반 인벤토리의 특정 슬롯 혹은 모든 슬롯의 아이템을 제거해준다.
+    permission: SuperDuperPlugin.Admin
     usage: /<command>
     aliases: iclearall
 
